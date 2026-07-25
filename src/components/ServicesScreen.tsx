@@ -12,6 +12,13 @@ import {
 } from 'lucide-react';
 import { HeaderNav } from './HeaderNav';
 
+import careForAllAgesIcon from '../assets/care_for_all_ages.png';
+import personalisedAttentionIcon from '../assets/personalised_attention.png';
+import trustIcon from '../assets/trust.png';
+import communityIcon from '../assets/community.png';
+import tickMarkIcon from '../assets/tick_mark.png';
+import mainServicesImg from '../assets/main_services.png';
+
 interface ServicesScreenProps {
   onBack: () => void;
   onContactClinic: () => void;
@@ -43,62 +50,74 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
       />
 
       <div className="px-6 pt-5 space-y-6">
-        {/* Doctor Summary Card */}
-        <div className="p-5 rounded-3xl bg-white border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center border-2 border-pink-50 text-pink-600 shrink-0 shadow-inner">
-            <User className="w-8 h-8 stroke-[1.8]" />
+        {/* Doctor Summary Card with Integrated Newly Established Clinic Banner */}
+        <div className="p-4.5 rounded-3xl bg-white border border-gray-100 shadow-sm space-y-3.5">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#FF2D75] to-[#E6005C] flex items-center justify-center text-white shadow-xs shrink-0">
+              <Stethoscope className="w-8 h-8 stroke-[2]" />
+            </div>
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-tight">
+                Dr. Sakthimaindan<br />Karthikeyan
+              </h2>
+              <p className="text-xs sm:text-sm font-semibold text-[#D8005A] mt-1">
+                General Physician
+              </p>
+              <p className="text-[11px] sm:text-xs font-bold text-[#D8005A] tracking-tight mt-1">
+                MBBS, CCH, CCPE, ACDM (UK)
+              </p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-extrabold text-gray-900 leading-tight">
-              Dr. Sakthimaindan Karthikeyan
-            </h2>
-            <p className="text-pink-600 font-bold text-sm">General Physician</p>
-            <p className="text-[11px] text-pink-500 font-semibold mt-0.5">
-              MBBS, CCH, CCPE, ACDM (UK)
-            </p>
-          </div>
-        </div>
 
-        {/* Newly Established Clinic Badge */}
-        <div className="flex justify-center">
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-100/80">
-            Newly Established Clinic
-          </span>
+          {/* Integrated Newly Established Clinic Pill Banner */}
+          <div className="w-full bg-[#E8F5EE] border border-emerald-100/60 rounded-2xl py-2 px-3.5 text-center">
+            <span className="text-xs font-bold text-[#1F6E43] tracking-wide">
+              Newly Established Clinic
+            </span>
+          </div>
         </div>
 
         {/* 4 Feature Badges */}
         <div className="grid grid-cols-4 gap-2 text-center">
           <div className="flex flex-col items-center">
-            <div className="w-11 h-11 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center mb-1.5">
-              <Users className="w-5 h-5" />
-            </div>
+            <img
+              src={careForAllAgesIcon}
+              alt="Care for All Ages"
+              className="w-12 h-12 object-contain mb-1.5 transition-transform hover:scale-105"
+            />
             <span className="text-[10px] font-bold text-gray-800 leading-tight">
               Care for<br />All Ages
             </span>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="w-11 h-11 rounded-2xl bg-pink-50 text-pink-500 flex items-center justify-center mb-1.5">
-              <Heart className="w-5 h-5 fill-pink-500/20" />
-            </div>
+            <img
+              src={personalisedAttentionIcon}
+              alt="Personalized Attention"
+              className="w-12 h-12 object-contain mb-1.5 transition-transform hover:scale-105"
+            />
             <span className="text-[10px] font-bold text-gray-800 leading-tight">
               Personalized<br />Attention
             </span>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center mb-1.5">
-              <Shield className="w-5 h-5" />
-            </div>
+            <img
+              src={trustIcon}
+              alt="Trusted Care"
+              className="w-12 h-12 object-contain mb-1.5 transition-transform hover:scale-105"
+            />
             <span className="text-[10px] font-bold text-gray-800 leading-tight">
               Trusted<br />Care
             </span>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center mb-1.5">
-              <Smile className="w-5 h-5" />
-            </div>
+            <img
+              src={communityIcon}
+              alt="Community Focused"
+              className="w-12 h-12 object-contain mb-1.5 transition-transform hover:scale-105"
+            />
             <span className="text-[10px] font-bold text-gray-800 leading-tight">
               Community<br />Focused
             </span>
@@ -113,22 +132,22 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           </p>
 
           <div className="flex items-center gap-4 pt-2">
-            {/* Left pink graphic illustration */}
-            <div className="w-32 h-36 rounded-3xl bg-pink-50 flex flex-col items-center justify-center p-3 text-pink-300 relative overflow-hidden shrink-0">
-              <div className="w-12 h-12 rounded-full bg-pink-200/80 flex items-center justify-center mb-1">
-                <div className="w-6 h-6 rounded-full bg-pink-400" />
-              </div>
-              <div className="w-16 h-10 rounded-t-2xl bg-pink-300/80" />
-              <Stethoscope className="w-6 h-6 text-pink-500 absolute bottom-3 right-3 opacity-60" />
-            </div>
+            {/* Left graphic image */}
+            <img
+              src={mainServicesImg}
+              alt="Main Services"
+              className="w-32 h-44 object-contain rounded-2xl shrink-0"
+            />
 
             {/* Treatment Checklist */}
-            <div className="flex-1 space-y-2">
+            <div className="flex-1 space-y-2.5">
               {treatments.map((treatment, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-pink-600 text-white flex items-center justify-center shrink-0">
-                    <CheckCircle2 className="w-3.5 h-3.5 stroke-[3]" />
-                  </div>
+                <div key={idx} className="flex items-center gap-2.5">
+                  <img
+                    src={tickMarkIcon}
+                    alt="Check"
+                    className="w-4 h-4 object-contain shrink-0"
+                  />
                   <span className="text-xs font-bold text-gray-800">{treatment}</span>
                 </div>
               ))}

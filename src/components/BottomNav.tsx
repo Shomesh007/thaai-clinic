@@ -22,6 +22,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
         const Icon = tab.icon;
         const isActive =
           activeTab === tab.id ||
+          (tab.id === 'home' && activeTab === 'welcome') ||
           (tab.id === 'appointments' && activeTab === 'book-appointment') ||
           (tab.id === 'services' && activeTab === 'clinic-info') ||
           (tab.id === 'health-tips' && activeTab === 'health-records');

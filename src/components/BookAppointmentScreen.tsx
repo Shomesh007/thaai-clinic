@@ -95,7 +95,7 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
   };
 
   return (
-    <div className="flex-1 overflow-y-auto pb-36 bg-white relative">
+    <div className="flex-1 overflow-y-auto pb-24 bg-white relative">
       <HeaderNav
         title="Book Appointment"
         subtitle="We're here to help you"
@@ -281,25 +281,25 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
             </div>
           </div>
         </section>
-      </div>
 
-      {/* Fixed Footer Bar */}
-      <footer className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-white border-t border-gray-100 flex flex-col items-center z-20 shadow-2xl">
-        <button
-          onClick={handleConfirm}
-          className="w-full bg-pink-600 hover:bg-pink-700 active:scale-[0.98] text-white font-extrabold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-pink-200 transition-all cursor-pointer"
-        >
-          <span className="text-base">Confirm Appointment</span>
-          <div className="bg-white rounded-full p-1 ml-1 text-pink-600">
-            <ArrowRight className="h-4 w-4 stroke-[3]" />
+        {/* Confirm Appointment Action Section at end of page content */}
+        <div className="pt-2 pb-6 flex flex-col items-center space-y-3">
+          <button
+            onClick={handleConfirm}
+            className="w-full bg-pink-600 hover:bg-pink-700 active:scale-[0.98] text-white font-extrabold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-pink-200 transition-all cursor-pointer"
+          >
+            <span className="text-base">Confirm Appointment</span>
+            <div className="bg-white rounded-full p-1 ml-1 text-pink-600">
+              <ArrowRight className="h-4 w-4 stroke-[3]" />
+            </div>
+          </button>
+
+          <div className="flex items-center gap-1.5 text-[11px] text-gray-500 font-medium">
+            <Lock className="h-3.5 w-3.5 text-blue-500" />
+            <span>Your data is safe and secure with us</span>
           </div>
-        </button>
-
-        <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-gray-500 font-medium">
-          <Lock className="h-3.5 w-3.5 text-blue-500" />
-          <span>Your data is safe and secure with us</span>
         </div>
-      </footer>
+      </div>
 
       {/* Confirmation Success Modal */}
       {showConfirmationModal && bookedDetails && (

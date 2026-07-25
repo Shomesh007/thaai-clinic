@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MobileFrame } from './components/MobileFrame';
 import { BottomNav } from './components/BottomNav';
+import { WelcomeScreen } from './components/WelcomeScreen';
 import { HomeScreen } from './components/HomeScreen';
 import { ServicesScreen } from './components/ServicesScreen';
 import { BookAppointmentScreen } from './components/BookAppointmentScreen';
@@ -23,7 +24,7 @@ import {
 import { Phone, MessageCircle, X, ExternalLink } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<TabType>('home');
+  const [activeTab, setActiveTab] = useState<TabType>('welcome');
 
   // Local Storage Persistence
   const [appointments, setAppointments] = useState<Appointment[]>(() => {
@@ -123,6 +124,13 @@ export default function App() {
   return (
     <MobileFrame>
       {/* Active Screen View */}
+      {activeTab === 'welcome' && (
+        <WelcomeScreen
+          onGetStarted={() => setActiveTab('home')}
+          setActiveTab={setActiveTab}
+        />
+      )}
+
       {activeTab === 'home' && (
         <HomeScreen
           upcomingAppointment={upcomingAppointment}
@@ -198,8 +206,10 @@ export default function App() {
         />
       )}
 
-      {/* Global Bottom Navigation */}
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* Global Bottom Navigation (Hidden on Welcome Screen) */}
+      {activeTab !== 'welcome' && (
+        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      )}
 
       {/* Slide-over Notifications */}
       {showNotifications && (
