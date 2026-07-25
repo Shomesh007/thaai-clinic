@@ -1,0 +1,6 @@
+{
+  "name": "Thaai Clinic",
+  "description": "Thaai Clinic patient app for appointment booking, doctor consultation, services info, health records, and medical tips.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
