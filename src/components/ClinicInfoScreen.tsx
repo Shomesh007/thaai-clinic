@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { HeaderNav } from './HeaderNav';
 import { TabType } from '../types';
+import drSakthiImage from '../assets/dr_sakthi_image.jpeg';
 
 interface ClinicInfoScreenProps {
   setActiveTab: (tab: TabType) => void;
@@ -26,7 +27,7 @@ export const ClinicInfoScreen: React.FC<ClinicInfoScreenProps> = ({
   onOpenWhatsApp,
 }) => {
   return (
-    <div className="flex-1 overflow-y-auto pb-28 bg-slate-50/50">
+    <section aria-label="Thaai Clinic Information - Karaikal Puducherry" className="flex-1 overflow-y-auto pb-20 bg-slate-50/50">
       <HeaderNav
         title="Clinic Information"
         subtitle="Thaai Clinic • Karaikal"
@@ -68,17 +69,20 @@ export const ClinicInfoScreen: React.FC<ClinicInfoScreenProps> = ({
         {/* Doctor Details */}
         <div className="bg-white rounded-3xl p-5 border border-gray-100 shadow-2xs space-y-3">
           <h3 className="text-sm font-extrabold text-gray-900 flex items-center gap-2">
-            <Stethoscope className="w-4 h-4 text-pink-600" /> Primary Consultant
+            <span className="w-2 h-2 rounded-full bg-[#E91E63]"></span> Primary Consultant
           </h3>
 
-          <div className="p-3 bg-pink-50/60 rounded-2xl border border-pink-100 space-y-1">
-            <h4 className="font-extrabold text-gray-900 text-sm">
-              Dr. Sakthimaindan Karthikeyan
-            </h4>
-            <p className="text-xs text-pink-600 font-bold">General Physician</p>
-            <p className="text-[11px] text-gray-600 font-medium">
-              Qualifications: MBBS, CCH, CCPE, ACDM (UK)
-            </p>
+          <div className="flex items-center gap-3.5 p-3 bg-pink-50/60 rounded-2xl border border-pink-100">
+            <img src={drSakthiImage} alt="Dr. Sakthimaindan" className="w-13 h-13 rounded-2xl object-cover border border-pink-200 shadow-2xs shrink-0" />
+            <div>
+              <h4 className="font-extrabold text-gray-900 text-sm">
+                Dr. Sakthimaindan Karthikeyan
+              </h4>
+              <p className="text-xs text-pink-600 font-bold">General Physician</p>
+              <p className="text-[11px] text-gray-600 font-medium mt-0.5">
+                MBBS, CCH, CCPE, ACDM (UK)
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 text-xs font-semibold text-gray-700 pt-1">
@@ -91,6 +95,13 @@ export const ClinicInfoScreen: React.FC<ClinicInfoScreenProps> = ({
               <span>Certified Care</span>
             </div>
           </div>
+
+          <button
+            onClick={() => setActiveTab('about-doctor')}
+            className="w-full mt-2 bg-pink-50 hover:bg-pink-100 text-[#D8005A] font-extrabold py-2.5 px-4 rounded-2xl text-xs flex items-center justify-center gap-1.5 border border-pink-200 transition-colors cursor-pointer"
+          >
+            <Stethoscope className="w-4 h-4" /> View Full Doctor Bio & Profile
+          </button>
         </div>
 
         {/* Timings */}
@@ -141,8 +152,23 @@ export const ClinicInfoScreen: React.FC<ClinicInfoScreenProps> = ({
               Directions <ExternalLink className="w-3 h-3" />
             </a>
           </div>
+
+          {/* Lazy-loaded Google Maps Embed for Geographic SEO Signal */}
+          <div className="mt-3 rounded-2xl overflow-hidden border border-gray-100">
+            <iframe
+              title="Thaai Clinic Karaikal Location on Google Maps"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.0!2d79.83451!3d10.92254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sThaai+Clinic!5e0!3m2!1sen!2sin!4v1690000000000"
+              width="100%"
+              height="150"
+              style={{ border: 0 }}
+              allowFullScreen={false}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="rounded-2xl"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };

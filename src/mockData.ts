@@ -10,7 +10,7 @@ export const INITIAL_APPOINTMENTS: Appointment[] = [
     time: '10:30 AM',
     reason: 'General Health Checkup & Blood Pressure Monitoring',
     location: 'Thaai Clinic, 385, Bharathiyar Road, Kovil Pathu, Karaikal',
-    status: 'upcoming',
+    status: 'completed',
     patientName: 'Karthik Subramanian',
     patientPhone: '+91 98765 43210',
     createdAt: '2024-05-20T10:00:00Z',

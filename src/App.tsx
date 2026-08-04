@@ -11,6 +11,7 @@ import { HealthTipsScreen } from './components/HealthTipsScreen';
 import { ProfileScreen } from './components/ProfileScreen';
 import { ClinicInfoScreen } from './components/ClinicInfoScreen';
 import { ConsultNowScreen } from './components/ConsultNowScreen';
+import { AboutDoctorScreen } from './components/AboutDoctorScreen';
 import { NotificationsDrawer } from './components/NotificationsDrawer';
 
 import { TabType, Appointment, HealthRecord, HealthTip, NotificationItem } from './types';
@@ -21,15 +22,144 @@ import {
   INITIAL_NOTIFICATIONS,
 } from './mockData';
 
-import { Phone, MessageCircle, X, ExternalLink } from 'lucide-react';
+import { Phone, MessageCircle } from 'lucide-react';
+
+// ── URL ↔ TabType mapping ─────────────────────────────────────────────────
+const PATH_TO_TAB: Record<string, TabType> = {
+  '/':                 'home',
+  '/home':             'home',
+  '/services':         'services',
+  '/appointments':     'appointments',
+  '/book-appointment': 'book-appointment',
+  '/health-tips':      'health-tips',
+  '/health-records':   'health-records',
+  '/clinic-info':      'clinic-info',
+  '/consult-now':      'consult-now',
+  '/about-doctor':     'about-doctor',
+  '/profile':          'profile',
+  '/welcome':          'welcome',
+};
+
+const TAB_TO_PATH: Record<TabType, string> = {
+  'welcome':           '/welcome',
+  'home':              '/',
+  'services':          '/services',
+  'appointments':      '/appointments',
+  'book-appointment':  '/book-appointment',
+  'health-tips':       '/health-tips',
+  'health-records':    '/health-records',
+  'clinic-info':       '/clinic-info',
+  'consult-now':       '/consult-now',
+  'about-doctor':      '/about-doctor',
+  'profile':           '/profile',
+};
+
+const TAB_META: Record<TabType, { title: string; description: string }> = {
+  'welcome':           { title: 'Thaai Clinic Karaikal | Dr. Sakthimaindan', description: 'Welcome to Thaai Clinic, Karaikal. General physician Dr. Sakthimaindan Karthikeyan.' },
+  'home':              { title: 'Thaai Clinic Karaikal | General Physician in Karaikal', description: 'Thaai Clinic, Karaikal – Compassionate care for you & your family. Walk-in & appointments available.' },
+  'services':          { title: 'Services – Thaai Clinic Karaikal | Child Health, Diabetes & More', description: 'Child health, diabetes care, fever treatment, respiratory care, health checkups & more at Thaai Clinic Karaikal.' },
+  'appointments':      { title: 'My Appointments – Thaai Clinic Karaikal', description: 'View and manage your appointments at Thaai Clinic Karaikal with Dr. Sakthimaindan.' },
+  'book-appointment':  { title: 'Book Appointment – Thaai Clinic Karaikal | Dr. Sakthimaindan', description: 'Book an appointment with Dr. Sakthimaindan Karthikeyan at Thaai Clinic, Karaikal. Walk-in or schedule online.' },
+  'health-tips':       { title: 'Health Tips – Thaai Clinic Karaikal | Wellness & Nutrition', description: 'Expert health tips on wellness, nutrition, chronic care, and child health from Dr. Sakthimaindan, Karaikal.' },
+  'health-records':    { title: 'Health Records – Thaai Clinic Karaikal', description: 'View and manage your personal health records at Thaai Clinic Karaikal.' },
+  'clinic-info':       { title: 'Clinic Info – Thaai Clinic | 385 Bharathiyar Road, Karaikal', description: 'Thaai Clinic, 385 Bharathiyar Road, Kovil Pathu, Karaikal. Timings: 8AM–1PM & 5PM–11PM. Call +91 98765 43210.' },
+  'consult-now':       { title: 'Consult Now – Thaai Clinic Karaikal', description: 'Get quick consultation at Thaai Clinic Karaikal. Call or WhatsApp Dr. Sakthimaindan now.' },
+  'about-doctor':      { title: 'Dr. Sakthimaindan Karthikeyan – General Physician Karaikal | MBBS', description: 'About Dr. Sakthimaindan Karthikeyan, MBBS. General Physician at Thaai Clinic, Karaikal. Specialised in diabetes, child health & family medicine.' },
+  'profile':           { title: 'Profile – Thaai Clinic Karaikal', description: 'Manage your profile at Thaai Clinic Karaikal.' },
+};
+
+/** Derive initial tab from browser URL path */
+function getTabFromPath(): TabType {
+  const path = window.location.pathname;
+  return PATH_TO_TAB[path] ?? 'home';
+}
+
+/** Push a URL change to browser history */
+function pushPath(tab: TabType) {
+  const path = TAB_TO_PATH[tab] ?? '/';
+  if (window.location.pathname !== path) {
+    window.history.pushState({ tab }, '', path);
+  }
+}
+
+/** Update <title>, canonical <link>, og tags, and meta description */
+function updatePageMeta(tab: TabType) {
+  const meta = TAB_META[tab];
+  if (!meta) return;
+
+  document.title = meta.title;
+
+  const descEl = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+  if (descEl) descEl.setAttribute('content', meta.description);
+
+  const path = TAB_TO_PATH[tab] ?? '/';
+  const canonical = `https://thaaiclinic.com${path === '/' ? '' : path}`;
+
+  const linkEl = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (linkEl) linkEl.setAttribute('href', canonical);
+
+  const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', canonical);
+
+  const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', meta.title);
+
+  const ogDesc = document.querySelector<HTMLMetaElement>('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', meta.description);
+
+  const twTitle = document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]');
+  if (twTitle) twTitle.setAttribute('content', meta.title);
+
+  const twDesc = document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]');
+  if (twDesc) twDesc.setAttribute('content', meta.description);
+}
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<TabType>('welcome');
+  const [activeTab, setActiveTabState] = useState<TabType>(() => {
+    const fromUrl = getTabFromPath();
+    // Show welcome screen for first-time session visitors arriving at root
+    const hasVisited = sessionStorage.getItem('thaai_visited');
+    if (!hasVisited && (fromUrl === 'home' || fromUrl === 'welcome')) {
+      return 'welcome';
+    }
+    return fromUrl === 'welcome' ? 'home' : fromUrl;
+  });
 
-  // Local Storage Persistence
+  /** Wrapped setter: updates state + URL + meta atomically */
+  const setActiveTab = (tab: TabType) => {
+    setActiveTabState(tab);
+    pushPath(tab);
+    updatePageMeta(tab);
+    if (tab !== 'welcome') {
+      sessionStorage.setItem('thaai_visited', '1');
+    }
+  };
+
+  // Sync URL & meta on first render
+  useEffect(() => {
+    updatePageMeta(activeTab);
+    const path = TAB_TO_PATH[activeTab] ?? '/';
+    if (window.location.pathname !== path) {
+      window.history.replaceState({ tab: activeTab }, '', path);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Handle browser Back / Forward button
+  useEffect(() => {
+    const onPopState = (e: PopStateEvent) => {
+      const tab: TabType = e.state?.tab ?? getTabFromPath();
+      setActiveTabState(tab);
+      updatePageMeta(tab);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  // ── Persisted State ───────────────────────────────────────────────────
   const [appointments, setAppointments] = useState<Appointment[]>(() => {
     const saved = localStorage.getItem('thaai_appointments');
-    return saved ? JSON.parse(saved) : INITIAL_APPOINTMENTS;
+    const list: Appointment[] = saved ? JSON.parse(saved) : INITIAL_APPOINTMENTS;
+    return list.map((a) => (a.id === 'THAAI-2024-8821' ? { ...a, status: 'completed' as const } : a));
   });
 
   const [records, setRecords] = useState<HealthRecord[]>(() => {
@@ -51,29 +181,17 @@ export default function App() {
   const [showCallModal, setShowCallModal] = useState(false);
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem('thaai_appointments', JSON.stringify(appointments));
-  }, [appointments]);
+  useEffect(() => { localStorage.setItem('thaai_appointments', JSON.stringify(appointments)); }, [appointments]);
+  useEffect(() => { localStorage.setItem('thaai_records', JSON.stringify(records)); }, [records]);
+  useEffect(() => { localStorage.setItem('thaai_tips', JSON.stringify(tips)); }, [tips]);
+  useEffect(() => { localStorage.setItem('thaai_notifications', JSON.stringify(notifications)); }, [notifications]);
 
-  useEffect(() => {
-    localStorage.setItem('thaai_records', JSON.stringify(records));
-  }, [records]);
-
-  useEffect(() => {
-    localStorage.setItem('thaai_tips', JSON.stringify(tips));
-  }, [tips]);
-
-  useEffect(() => {
-    localStorage.setItem('thaai_notifications', JSON.stringify(notifications));
-  }, [notifications]);
-
-  // Find upcoming appointment for home screen display
+  // ── Derived ───────────────────────────────────────────────────────────
   const upcomingAppointment = appointments.find((a) => a.status === 'upcoming');
 
+  // ── Handlers ──────────────────────────────────────────────────────────
   const handleAppointmentBooked = (newAppt: Appointment) => {
     setAppointments((prev) => [newAppt, ...prev]);
-
-    // Add notification
     const newNotif: NotificationItem = {
       id: `NOTIF-${Date.now()}`,
       title: 'Appointment Booked Successfully',
@@ -91,7 +209,7 @@ export default function App() {
     );
   };
 
-  const handleRescheduleAppointment = (id: string) => {
+  const handleRescheduleAppointment = (_id: string) => {
     setActiveTab('book-appointment');
   };
 
@@ -104,11 +222,7 @@ export default function App() {
       prev.map((t) => {
         if (t.id === id) {
           const isLiked = !t.isLiked;
-          return {
-            ...t,
-            isLiked,
-            likes: isLiked ? t.likes + 1 : t.likes - 1,
-          };
+          return { ...t, isLiked, likes: isLiked ? t.likes + 1 : t.likes - 1 };
         }
         return t;
       })
@@ -123,88 +237,104 @@ export default function App() {
 
   return (
     <MobileFrame>
-      {/* Active Screen View */}
-      {activeTab === 'welcome' && (
-        <WelcomeScreen
-          onGetStarted={() => setActiveTab('home')}
-          setActiveTab={setActiveTab}
-        />
-      )}
+      {/* Semantic Main Content Area */}
+      <main
+        role="main"
+        aria-label="Thaai Clinic Karaikal - General Physician Dr. Sakthimaindan"
+        className="flex-1 flex flex-col min-h-0 overflow-hidden"
+      >
+        {activeTab === 'welcome' && (
+          <WelcomeScreen
+            onGetStarted={() => setActiveTab('home')}
+            setActiveTab={setActiveTab}
+          />
+        )}
 
-      {activeTab === 'home' && (
-        <HomeScreen
-          upcomingAppointment={upcomingAppointment}
-          setActiveTab={setActiveTab}
-          onOpenNotifications={() => setShowNotifications(true)}
-          onOpenWhatsApp={() => setShowWhatsAppModal(true)}
-          onOpenCall={() => setShowCallModal(true)}
-          unreadCount={unreadNotifCount}
-        />
-      )}
+        {activeTab === 'home' && (
+          <HomeScreen
+            upcomingAppointment={upcomingAppointment}
+            setActiveTab={setActiveTab}
+            onOpenNotifications={() => setShowNotifications(true)}
+            onOpenWhatsApp={() => setShowWhatsAppModal(true)}
+            onOpenCall={() => setShowCallModal(true)}
+            unreadCount={unreadNotifCount}
+          />
+        )}
 
-      {activeTab === 'services' && (
-        <ServicesScreen
-          onBack={() => setActiveTab('home')}
-          onContactClinic={() => setShowCallModal(true)}
-          onBookAppointment={() => setActiveTab('book-appointment')}
-        />
-      )}
+        {activeTab === 'services' && (
+          <ServicesScreen
+            onBack={() => setActiveTab('home')}
+            onContactClinic={() => setShowCallModal(true)}
+            onBookAppointment={() => setActiveTab('book-appointment')}
+          />
+        )}
 
-      {activeTab === 'book-appointment' && (
-        <BookAppointmentScreen
-          onBack={() => setActiveTab('home')}
-          onAppointmentBooked={handleAppointmentBooked}
-        />
-      )}
+        {activeTab === 'book-appointment' && (
+          <BookAppointmentScreen
+            onBack={() => setActiveTab('home')}
+            onAppointmentBooked={handleAppointmentBooked}
+          />
+        )}
 
-      {activeTab === 'appointments' && (
-        <AppointmentsScreen
-          appointments={appointments}
-          setActiveTab={setActiveTab}
-          onCancelAppointment={handleCancelAppointment}
-          onRescheduleAppointment={handleRescheduleAppointment}
-        />
-      )}
+        {activeTab === 'appointments' && (
+          <AppointmentsScreen
+            appointments={appointments}
+            setActiveTab={setActiveTab}
+            onCancelAppointment={handleCancelAppointment}
+            onRescheduleAppointment={handleRescheduleAppointment}
+          />
+        )}
 
-      {activeTab === 'health-records' && (
-        <HealthRecordsScreen
-          records={records}
-          setActiveTab={setActiveTab}
-          onAddRecord={handleAddRecord}
-        />
-      )}
+        {activeTab === 'health-records' && (
+          <HealthRecordsScreen
+            records={records}
+            setActiveTab={setActiveTab}
+            onAddRecord={handleAddRecord}
+          />
+        )}
 
-      {activeTab === 'health-tips' && (
-        <HealthTipsScreen
-          tips={tips}
-          setActiveTab={setActiveTab}
-          onToggleLike={handleToggleLikeTip}
-        />
-      )}
+        {activeTab === 'health-tips' && (
+          <HealthTipsScreen
+            tips={tips}
+            setActiveTab={setActiveTab}
+            onToggleLike={handleToggleLikeTip}
+          />
+        )}
 
-      {activeTab === 'profile' && (
-        <ProfileScreen
-          setActiveTab={setActiveTab}
-          onOpenCall={() => setShowCallModal(true)}
-          onOpenWhatsApp={() => setShowWhatsAppModal(true)}
-        />
-      )}
+        {activeTab === 'profile' && (
+          <ProfileScreen
+            setActiveTab={setActiveTab}
+            onOpenCall={() => setShowCallModal(true)}
+            onOpenWhatsApp={() => setShowWhatsAppModal(true)}
+          />
+        )}
 
-      {activeTab === 'clinic-info' && (
-        <ClinicInfoScreen
-          setActiveTab={setActiveTab}
-          onOpenCall={() => setShowCallModal(true)}
-          onOpenWhatsApp={() => setShowWhatsAppModal(true)}
-        />
-      )}
+        {activeTab === 'clinic-info' && (
+          <ClinicInfoScreen
+            setActiveTab={setActiveTab}
+            onOpenCall={() => setShowCallModal(true)}
+            onOpenWhatsApp={() => setShowWhatsAppModal(true)}
+          />
+        )}
 
-      {activeTab === 'consult-now' && (
-        <ConsultNowScreen
-          setActiveTab={setActiveTab}
-          onOpenCall={() => setShowCallModal(true)}
-          onOpenWhatsApp={() => setShowWhatsAppModal(true)}
-        />
-      )}
+        {activeTab === 'consult-now' && (
+          <ConsultNowScreen
+            setActiveTab={setActiveTab}
+            onOpenCall={() => setShowCallModal(true)}
+            onOpenWhatsApp={() => setShowWhatsAppModal(true)}
+          />
+        )}
+
+        {activeTab === 'about-doctor' && (
+          <AboutDoctorScreen
+            setActiveTab={setActiveTab}
+            onOpenNotifications={() => setShowNotifications(true)}
+            onOpenCall={() => setShowCallModal(true)}
+            onOpenWhatsApp={() => setShowWhatsAppModal(true)}
+            unreadCount={unreadNotifCount}
+          />
+        )}
+      </main>
 
       {/* Global Bottom Navigation (Hidden on Welcome Screen) */}
       {activeTab !== 'welcome' && (

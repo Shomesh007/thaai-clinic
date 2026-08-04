@@ -18,6 +18,7 @@ import trustIcon from '../assets/trust.png';
 import communityIcon from '../assets/community.png';
 import tickMarkIcon from '../assets/tick_mark.png';
 import mainServicesImg from '../assets/main_services.png';
+import drSakthiImage from '../assets/dr_sakthi_image.jpeg';
 
 interface ServicesScreenProps {
   onBack: () => void;
@@ -41,7 +42,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto pb-24 bg-white">
+    <section aria-label="Thaai Clinic Services - General Physician in Karaikal" className="flex-1 overflow-y-auto pb-24 bg-white">
       <HeaderNav
         title="Our Services"
         subtitle="Quality care for you and your family"
@@ -53,8 +54,8 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
         {/* Doctor Summary Card with Integrated Newly Established Clinic Banner */}
         <div className="p-4.5 rounded-3xl bg-white border border-gray-100 shadow-sm space-y-3.5">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#FF2D75] to-[#E6005C] flex items-center justify-center text-white shadow-xs shrink-0">
-              <Stethoscope className="w-8 h-8 stroke-[2]" />
+            <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-pink-100 shadow-2xs shrink-0">
+              <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthikeyan" className="w-full h-full object-cover" />
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-tight">
@@ -82,7 +83,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           <div className="flex flex-col items-center">
             <img
               src={careForAllAgesIcon}
-              alt="Care for All Ages"
+              alt="Care for all ages - infants to seniors at Thaai Clinic Karaikal"
               className="w-12 h-12 object-contain mb-1.5 transition-transform hover:scale-105"
             />
             <span className="text-[10px] font-bold text-gray-800 leading-tight">
@@ -93,7 +94,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           <div className="flex flex-col items-center">
             <img
               src={personalisedAttentionIcon}
-              alt="Personalized Attention"
+              alt="Personalized medical attention by Dr. Sakthimaindan"
               className="w-12 h-12 object-contain mb-1.5 transition-transform hover:scale-105"
             />
             <span className="text-[10px] font-bold text-gray-800 leading-tight">
@@ -104,7 +105,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           <div className="flex flex-col items-center">
             <img
               src={trustIcon}
-              alt="Trusted Care"
+              alt="Trusted healthcare at Thaai Clinic Karaikal"
               className="w-12 h-12 object-contain mb-1.5 transition-transform hover:scale-105"
             />
             <span className="text-[10px] font-bold text-gray-800 leading-tight">
@@ -115,7 +116,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           <div className="flex flex-col items-center">
             <img
               src={communityIcon}
-              alt="Community Focused"
+              alt="Community focused clinic in Karaikal"
               className="w-12 h-12 object-contain mb-1.5 transition-transform hover:scale-105"
             />
             <span className="text-[10px] font-bold text-gray-800 leading-tight">
@@ -128,14 +129,14 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
         <div className="space-y-3 pt-2">
           <h3 className="text-xl font-bold text-gray-900">We Treat</h3>
           <p className="text-xs text-gray-500 font-medium leading-relaxed">
-            Comprehensive care for common health concerns for individuals and families.
+            Comprehensive care for common health concerns for individuals and families in Karaikal.
           </p>
 
           <div className="flex items-center gap-4 pt-2">
             {/* Left graphic image */}
             <img
               src={mainServicesImg}
-              alt="Main Services"
+              alt="General physician services and treatments offered at Thaai Clinic Karaikal"
               className="w-32 h-44 object-contain rounded-2xl shrink-0"
             />
 
@@ -186,6 +187,6 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };

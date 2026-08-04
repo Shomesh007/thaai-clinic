@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { HeaderNav } from './HeaderNav';
 import { Appointment } from '../types';
+import drSakthiImage from '../assets/dr_sakthi_image.jpeg';
 
 interface BookAppointmentScreenProps {
   onBack: () => void;
@@ -105,8 +106,8 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
       <div className="px-6 pt-4 space-y-6">
         {/* Doctor Summary Header */}
         <section className="p-4 rounded-2xl bg-white border border-gray-100 shadow-xs flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-pink-100 flex items-center justify-center border-2 border-pink-50 text-pink-500 shrink-0">
-            <User className="w-7 h-7 stroke-[2]" />
+          <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-pink-100 shadow-2xs shrink-0">
+            <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthikeyan" className="w-full h-full object-cover" />
           </div>
           <div>
             <h2 className="text-base font-bold text-gray-900 leading-tight">

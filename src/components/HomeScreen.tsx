@@ -15,6 +15,7 @@ import consultNowIcon from '../assets/consult_now.png';
 import healthRecordsIcon from '../assets/health_records.png';
 import healthTipsIcon from '../assets/health_tips.png';
 import clinicInfoIcon from '../assets/clinic_info.png';
+import drSakthiImage from '../assets/dr_sakthi_image.jpeg';
 
 interface HomeScreenProps {
   upcomingAppointment?: Appointment;
@@ -34,7 +35,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   unreadCount,
 }) => {
   return (
-    <div
+    <section
+      aria-label="Thaai Clinic Karaikal Home"
       className="flex-1 overflow-y-auto pb-20 bg-no-repeat bg-local"
       style={{
         backgroundImage: `url(${homeBg})`,
@@ -74,9 +76,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
         {/* Title and Subtitle */}
         <div className="space-y-1.5 max-w-[240px] ml-2 sm:ml-3">
+          {/* SEO H1: Primary keyword included, visually styled as greeting */}
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white flex items-center gap-2">
             Vanakkam! <span className="animate-bounce inline-block">👋</span>
           </h1>
+          <p className="sr-only">Thaai Clinic Karaikal — General Physician Dr. Sakthimaindan</p>
           <p className="text-pink-100 text-base sm:text-lg font-medium leading-snug">
             How can we help<br />you today?
           </p>
@@ -127,19 +131,61 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
           </div>
         ) : (
-          <div className="bg-[#FFF4F7] border border-pink-100/80 rounded-3xl p-4 shadow-sm text-center">
-            <div className="w-10 h-10 mx-auto rounded-full bg-pink-100 flex items-center justify-center text-pink-600 mb-1.5">
-              <Calendar className="w-5 h-5" />
+          /* BEGIN: Improvised Premium Doctor Welcome Banner */
+          <div className="bg-white border border-pink-100 rounded-3xl p-4 sm:p-5 shadow-sm space-y-3.5 relative overflow-hidden">
+            {/* Background subtle leaf pattern */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-pink-50/80 to-transparent rounded-bl-full pointer-events-none"></div>
+
+            <div className="flex items-start gap-3.5 relative z-10">
+              {/* Doctor Avatar with Online Status Dot */}
+              <div className="relative shrink-0">
+                <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-pink-100 via-rose-50 to-pink-50 border border-pink-200 shadow-2xs overflow-hidden">
+                  <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthikeyan" className="w-full h-full object-cover" />
+                </div>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full" title="Available Today"></span>
+              </div>
+
+              {/* Doctor Credentials */}
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-[10px] font-extrabold text-[#E91E63] uppercase tracking-wider bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100">
+                    General Physician
+                  </span>
+                  <span className="text-[10px] font-extrabold text-emerald-700 uppercase tracking-wider bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                    Karaikal
+                  </span>
+                </div>
+
+                <h2 className="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight pt-0.5">
+                  Dr. Sakthimaindan Karthikeyan
+                </h2>
+                <p className="text-[11px] text-gray-500 font-semibold">
+                  MBBS, CCH, CCPE, ACDM (UK)
+                </p>
+              </div>
             </div>
-            <h3 className="font-bold text-gray-800 text-xs sm:text-sm">No Upcoming Appointments</h3>
-            <p className="text-[11px] text-gray-500 mt-0.5 mb-2.5">Book your consultation with Dr. Sakthimaindan</p>
-            <button
-              onClick={() => setActiveTab('book-appointment')}
-              className="bg-pink-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-xs hover:bg-pink-700"
-            >
-              Book Now
-            </button>
+
+            <p className="text-xs text-gray-600 font-medium leading-relaxed pt-0.5 relative z-10">
+              Providing compassionate family care, preventive checkups, and diabetes management at Thaai Clinic.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="pt-2 border-t border-pink-100/80 flex items-center gap-2 relative z-10">
+              <button
+                onClick={() => setActiveTab('book-appointment')}
+                className="flex-1 bg-[#E91E63] hover:bg-[#D8005A] text-white font-extrabold py-2.5 px-3 rounded-2xl text-xs shadow-md shadow-pink-200/80 transition-all active:scale-95 text-center cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <Calendar className="w-3.5 h-3.5" /> Book Appointment
+              </button>
+              <button
+                onClick={() => setActiveTab('about-doctor')}
+                className="flex-1 bg-pink-50/80 hover:bg-pink-100 text-[#E91E63] font-extrabold py-2.5 px-3 rounded-2xl text-xs border border-pink-200/80 transition-all active:scale-95 text-center cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                About Doctor <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
+          /* END: Improvised Premium Doctor Welcome Banner */
         )}
         {/* END: Upcoming Appointment Card */}
 
@@ -154,7 +200,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             >
               <img
                 src={bookApptIcon}
-                alt="Book Appointment"
+                alt="Book appointment with Dr. Sakthimaindan at Thaai Clinic Karaikal"
                 className="w-12 h-12 object-contain mb-1.5 transition-transform group-hover:scale-105"
               />
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-pink-600 leading-snug">
@@ -169,7 +215,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             >
               <img
                 src={myApptsIcon}
-                alt="My Appointments"
+                alt="View my appointments at Thaai Clinic"
                 className="w-12 h-12 object-contain mb-1.5 transition-transform group-hover:scale-105"
               />
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-blue-600 leading-snug">
@@ -184,7 +230,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             >
               <img
                 src={consultNowIcon}
-                alt="Consult Now"
+                alt="Consult now with general physician in Karaikal"
                 className="w-12 h-12 object-contain mb-1.5 transition-transform group-hover:scale-105"
               />
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-emerald-600 leading-snug">
@@ -199,7 +245,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             >
               <img
                 src={healthRecordsIcon}
-                alt="Health Records"
+                alt="Access health records at Thaai Clinic Karaikal"
                 className="w-12 h-12 object-contain mb-1.5 transition-transform group-hover:scale-105"
               />
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-indigo-600 leading-snug">
@@ -214,7 +260,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             >
               <img
                 src={healthTipsIcon}
-                alt="Health Tips"
+                alt="Health tips and wellness advice from Dr. Sakthimaindan"
                 className="w-12 h-12 object-contain mb-1.5 transition-transform group-hover:scale-105"
               />
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-amber-600 leading-snug">
@@ -229,7 +275,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             >
               <img
                 src={clinicInfoIcon}
-                alt="Clinic Info"
+                alt="Thaai Clinic information, address, and timings in Karaikal"
                 className="w-12 h-12 object-contain mb-1.5 transition-transform group-hover:scale-105"
               />
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-purple-600 leading-snug">
@@ -238,7 +284,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </button>
           </div>
         </div>
-        {/* END: Quick Access Section */}
 
         {/* BEGIN: Need Help WhatsApp Card */}
         <div className="bg-[#F2F7F9] border border-indigo-100/50 rounded-2xl p-3.5 flex items-center justify-between shadow-2xs">
@@ -286,6 +331,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
         {/* END: Clinic Timings Banner */}
       </div>
-    </div>
+    </section>
   );
 };

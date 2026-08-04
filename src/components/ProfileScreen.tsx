@@ -40,7 +40,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <div className="flex-1 overflow-y-auto pb-28 bg-slate-50/50">
+    <div className="flex-1 overflow-y-auto pb-20 bg-slate-50/50">
       <HeaderNav
         title="Patient Profile"
         subtitle="Personal info & health preferences"

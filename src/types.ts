@@ -1,4 +1,5 @@
 export type TabType =
+  | 'welcome'
   | 'home'
   | 'appointments'
   | 'services'
@@ -7,7 +8,8 @@ export type TabType =
   | 'book-appointment'
   | 'health-records'
   | 'clinic-info'
-  | 'consult-now';
+  | 'consult-now'
+  | 'about-doctor';
 
 export interface Appointment {
   id: string;

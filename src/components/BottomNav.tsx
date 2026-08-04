@@ -10,10 +10,10 @@ interface BottomNavProps {
 export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab }) => {
   const tabs = [
     { id: 'home' as TabType, label: 'Home', icon: Home },
-    { id: 'appointments' as TabType, label: 'Appointments', icon: Calendar },
+    { id: 'book-appointment' as TabType, label: 'Appointments', icon: Calendar },
     { id: 'services' as TabType, label: 'Services', icon: Briefcase, badge: true },
     { id: 'health-tips' as TabType, label: 'Health Tips', icon: BookOpen },
-    { id: 'profile' as TabType, label: 'Profile', icon: User },
+    { id: 'about-doctor' as TabType, label: 'About', icon: User },
   ];
 
   return (
@@ -23,8 +23,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
         const isActive =
           activeTab === tab.id ||
           (tab.id === 'home' && activeTab === 'welcome') ||
-          (tab.id === 'appointments' && activeTab === 'book-appointment') ||
-          (tab.id === 'services' && activeTab === 'clinic-info') ||
+          (tab.id === 'book-appointment' && activeTab === 'appointments') ||
+          (tab.id === 'services' && (activeTab === 'clinic-info' || activeTab === 'consult-now')) ||
           (tab.id === 'health-tips' && activeTab === 'health-records');
 
         return (
