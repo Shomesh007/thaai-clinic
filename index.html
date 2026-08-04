@@ -46,7 +46,13 @@
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="/assets/thai-clinic-logo.webp" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/assets/welcome-background.webp" type="image/webp" fetchpriority="high">
+
+    <!-- Load the matching Inter font without blocking first paint -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"></noscript>
 
     <!-- JSON-LD Structured Data: MedicalClinic -->
     <script type="application/ld+json">
@@ -59,7 +65,7 @@
       "description": "Thaai Clinic is a trusted general physician and family medicine clinic in Karaikal, Puducherry, led by Dr. Sakthimaindan Karthigeyan. Offering compassionate healthcare including fever treatment, diabetes management, child vaccination, health checkups, weight management, and respiratory care.",
       "url": "https://thaaiclinic.com",
       "telephone": "+91-86104-48427",
-      "image": "https://thaaiclinic.com/assets/thai_clinic_logo.png",
+      "image": "https://thaaiclinic.com/assets/thai-clinic-logo.webp",
       "priceRange": "₹₹",
       "currenciesAccepted": "INR",
       "paymentAccepted": "Cash, UPI",

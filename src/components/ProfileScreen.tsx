@@ -34,7 +34,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     age: '34 Yrs',
     gender: 'Male',
     bloodGroup: 'O +ve',
-    emergencyContact: '+91 98765 00000',
+    emergencyContact: '+91 86104 48427',
   });
 
   const [isEditing, setIsEditing] = useState(false);

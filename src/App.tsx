@@ -23,7 +23,7 @@ import {
 } from './mockData';
 
 import { Phone, MessageCircle } from 'lucide-react';
-import { preloadSplashImages, preloadRemainingImages } from './utils/preloadImages';
+import { preloadRemainingImages } from './utils/preloadImages';
 
 // ── URL ↔ TabType mapping ─────────────────────────────────────────────────
 const PATH_TO_TAB: Record<string, TabType> = {
@@ -116,8 +116,6 @@ function updatePageMeta(tab: TabType) {
 }
 
 export default function App() {
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
-
   const [activeTab, setActiveTabState] = useState<TabType>(() => {
     const fromUrl = getTabFromPath();
     // Show welcome screen for first-time session visitors arriving at root
@@ -138,7 +136,7 @@ export default function App() {
     }
   };
 
-  // Sync URL & meta on first render and handle staged image preloading
+  // Sync URL & meta on first render and defer non-critical image preloading
   useEffect(() => {
     updatePageMeta(activeTab);
     const path = TAB_TO_PATH[activeTab] ?? '/';
@@ -146,12 +144,14 @@ export default function App() {
       window.history.replaceState({ tab: activeTab }, '', path);
     }
 
-    // Stage 1: Preload essential splash screen assets first
-    preloadSplashImages().then(() => {
-      setIsInitialLoading(false);
-      // Stage 2: While user views splash/home screen, preload all remaining app images in background
-      preloadRemainingImages();
-    });
+    // Let the welcome screen and its LCP image render first. The remaining
+    // app images are useful after navigation, but do not belong in the
+    // critical startup network window.
+    const preloadTimer = window.setTimeout(() => {
+      void preloadRemainingImages();
+    }, 1200);
+
+    return () => window.clearTimeout(preloadTimer);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle browser Back / Forward button
@@ -244,16 +244,6 @@ export default function App() {
   };
 
   const unreadNotifCount = notifications.filter((n) => !n.read).length;
-
-  if (isInitialLoading) {
-    return (
-      <MobileFrame>
-        <div className="flex-1 flex items-center justify-center bg-[#FFF8FA]">
-          <div className="loader"></div>
-        </div>
-      </MobileFrame>
-    );
-  }
 
   return (
     <MobileFrame>

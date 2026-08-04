@@ -3,8 +3,6 @@ import {
   ArrowRight,
   Heart,
 } from 'lucide-react';
-import welcomeBg from '../assets/welcome_background.png';
-import thaiClinicLogo from '../assets/thai_clinic_logo.png';
 import childHealthIcon from '../assets/child_health.png';
 import diabetesCareIcon from '../assets/diabetes_care.png';
 import respiratoryCareIcon from '../assets/respiratory_care.png';
@@ -25,7 +23,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
       aria-label="Welcome to Thaai Clinic Karaikal"
       className="flex-1 flex flex-col justify-between overflow-y-auto px-5 py-5 min-h-full bg-no-repeat bg-local text-gray-800 selection:bg-pink-100 selection:text-pink-600"
       style={{
-        backgroundImage: `url(${welcomeBg})`,
+        backgroundImage: 'url(/assets/welcome-background.webp)',
         backgroundColor: '#FFF5F8',
         backgroundSize: '100% auto',
         backgroundPosition: 'center -60px',
@@ -35,9 +33,14 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
       {/* 1. TOP HEADER LOGO SECTION */}
       <div className="flex flex-col items-center justify-center space-y-1 shrink-0 pt-2">
         <img
-          src={thaiClinicLogo}
+          src="/assets/thai-clinic-logo.webp"
           alt="Thaai Clinic Karaikal - General Physician and Family Medicine Logo"
           className="w-48 sm:w-56 h-auto max-h-28 object-contain mx-auto"
+          width="2340"
+          height="1824"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
         <p className="text-xs sm:text-sm font-extrabold text-[#1F7A43] tracking-wide text-center">
           தாய் மக்கள் மருத்துவகம்

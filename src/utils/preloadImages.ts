@@ -14,18 +14,10 @@ import mainServicesImg from '../assets/main_services.png';
 import myApptsIcon from '../assets/my_appointments.png';
 import personalisedAttentionIcon from '../assets/personalised_attention.png';
 import respiratoryCareIcon from '../assets/respiratory_care.png';
-import thaiClinicLogo from '../assets/thai_clinic_logo.png';
 import tickMarkIcon from '../assets/tick_mark.png';
 import trustIcon from '../assets/trust.png';
-import welcomeBg from '../assets/welcome_background.png';
 
-/** Essential assets needed to render the Welcome / Splash screen */
-export const SPLASH_IMAGES = [
-  thaiClinicLogo,
-  welcomeBg,
-];
-
-/** Remaining app images preloaded in the background during splash screen */
+/** App images preloaded after the first screen has had time to render */
 export const REMAINING_IMAGES = [
   drSakthiImage,
   homeBg,
@@ -72,17 +64,6 @@ function preloadImageGroup(images: string[]): Promise<void> {
   });
 }
 
-/** Preload splash screen essential images */
-export function preloadSplashImages(): Promise<void> {
-  return preloadImageGroup(SPLASH_IMAGES);
-}
-
-/** Preload all remaining app images in background */
 export function preloadRemainingImages(): Promise<void> {
   return preloadImageGroup(REMAINING_IMAGES);
-}
-
-/** Preload all app images */
-export function preloadAllImages(): Promise<void> {
-  return preloadImageGroup([...SPLASH_IMAGES, ...REMAINING_IMAGES]);
 }
