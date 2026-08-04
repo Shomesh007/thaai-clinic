@@ -146,19 +146,11 @@ export default function App() {
       window.history.replaceState({ tab: activeTab }, '', path);
     }
 
-    const startTime = Date.now();
-    const MIN_LOADER_TIME = 2000; // 2 seconds minimum loader duration on every refresh for debugging
-
     // Stage 1: Preload essential splash screen assets first
     preloadSplashImages().then(() => {
-      const elapsedTime = Date.now() - startTime;
-      const remainingDelay = Math.max(0, MIN_LOADER_TIME - elapsedTime);
-
-      setTimeout(() => {
-        setIsInitialLoading(false);
-        // Stage 2: While user views splash/home screen, preload all remaining app images in background
-        preloadRemainingImages();
-      }, remainingDelay);
+      setIsInitialLoading(false);
+      // Stage 2: While user views splash/home screen, preload all remaining app images in background
+      preloadRemainingImages();
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
