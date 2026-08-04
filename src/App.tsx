@@ -23,7 +23,7 @@ import {
 } from './mockData';
 
 import { Phone, MessageCircle } from 'lucide-react';
-import { preloadAllImages } from './utils/preloadImages';
+import { preloadSplashImages, preloadRemainingImages } from './utils/preloadImages';
 
 // ── URL ↔ TabType mapping ─────────────────────────────────────────────────
 const PATH_TO_TAB: Record<string, TabType> = {
@@ -116,6 +116,8 @@ function updatePageMeta(tab: TabType) {
 }
 
 export default function App() {
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
   const [activeTab, setActiveTabState] = useState<TabType>(() => {
     const fromUrl = getTabFromPath();
     // Show welcome screen for first-time session visitors arriving at root
@@ -136,14 +138,20 @@ export default function App() {
     }
   };
 
-  // Sync URL & meta on first render and preload all website images upfront
+  // Sync URL & meta on first render and handle staged image preloading
   useEffect(() => {
     updatePageMeta(activeTab);
-    preloadAllImages();
     const path = TAB_TO_PATH[activeTab] ?? '/';
     if (window.location.pathname !== path) {
       window.history.replaceState({ tab: activeTab }, '', path);
     }
+
+    // Stage 1: Preload essential splash screen assets first
+    preloadSplashImages().then(() => {
+      setIsInitialLoading(false);
+      // Stage 2: While user views splash/home screen, preload all remaining app images in background
+      preloadRemainingImages();
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle browser Back / Forward button
@@ -236,6 +244,24 @@ export default function App() {
   };
 
   const unreadNotifCount = notifications.filter((n) => !n.read).length;
+
+  if (isInitialLoading) {
+    return (
+      <MobileFrame>
+        <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-b from-[#FFE6F0] via-[#FFF0F6] to-[#FFF8FA] p-6 text-center space-y-4">
+          <div className="loader"></div>
+          <div className="space-y-1">
+            <h1 className="text-sm font-extrabold text-[#E91E63] tracking-wider uppercase">
+              Thaai Clinic
+            </h1>
+            <p className="text-[11px] text-gray-500 font-medium">
+              Loading healthcare experience...
+            </p>
+          </div>
+        </div>
+      </MobileFrame>
+    );
+  }
 
   return (
     <MobileFrame>

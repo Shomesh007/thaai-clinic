@@ -19,41 +19,45 @@ import tickMarkIcon from '../assets/tick_mark.png';
 import trustIcon from '../assets/trust.png';
 import welcomeBg from '../assets/welcome_background.png';
 
-export const ALL_APP_IMAGES = [
-  bookApptIcon,
-  careForAllAgesIcon,
-  childHealthIcon,
-  clinicInfoIcon,
-  communityIcon,
-  consultNowIcon,
-  diabetesCareIcon,
-  drSakthiImage,
-  generalConsultationIcon,
-  healthRecordsIcon,
-  healthTipsIcon,
-  homeBg,
-  mainServicesImg,
-  myApptsIcon,
-  personalisedAttentionIcon,
-  respiratoryCareIcon,
+/** Essential assets needed to render the Welcome / Splash screen */
+export const SPLASH_IMAGES = [
   thaiClinicLogo,
-  tickMarkIcon,
-  trustIcon,
   welcomeBg,
 ];
 
-/** Preload all application image assets into browser cache */
-export function preloadAllImages(): Promise<void> {
+/** Remaining app images preloaded in the background during splash screen */
+export const REMAINING_IMAGES = [
+  drSakthiImage,
+  homeBg,
+  mainServicesImg,
+  bookApptIcon,
+  myApptsIcon,
+  consultNowIcon,
+  healthRecordsIcon,
+  healthTipsIcon,
+  clinicInfoIcon,
+  childHealthIcon,
+  diabetesCareIcon,
+  respiratoryCareIcon,
+  generalConsultationIcon,
+  personalisedAttentionIcon,
+  careForAllAgesIcon,
+  communityIcon,
+  trustIcon,
+  tickMarkIcon,
+];
+
+function preloadImageGroup(images: string[]): Promise<void> {
   return new Promise((resolve) => {
     let loadedCount = 0;
-    const total = ALL_APP_IMAGES.length;
+    const total = images.length;
 
     if (total === 0) {
       resolve();
       return;
     }
 
-    ALL_APP_IMAGES.forEach((src) => {
+    images.forEach((src) => {
       const img = new Image();
       img.src = src;
       const handleDone = () => {
@@ -66,4 +70,19 @@ export function preloadAllImages(): Promise<void> {
       img.onerror = handleDone;
     });
   });
+}
+
+/** Preload splash screen essential images */
+export function preloadSplashImages(): Promise<void> {
+  return preloadImageGroup(SPLASH_IMAGES);
+}
+
+/** Preload all remaining app images in background */
+export function preloadRemainingImages(): Promise<void> {
+  return preloadImageGroup(REMAINING_IMAGES);
+}
+
+/** Preload all app images */
+export function preloadAllImages(): Promise<void> {
+  return preloadImageGroup([...SPLASH_IMAGES, ...REMAINING_IMAGES]);
 }
