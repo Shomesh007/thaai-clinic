@@ -146,11 +146,19 @@ export default function App() {
       window.history.replaceState({ tab: activeTab }, '', path);
     }
 
+    const startTime = Date.now();
+    const MIN_LOADER_TIME = 2000; // 2 seconds minimum loader duration on every refresh for debugging
+
     // Stage 1: Preload essential splash screen assets first
     preloadSplashImages().then(() => {
-      setIsInitialLoading(false);
-      // Stage 2: While user views splash/home screen, preload all remaining app images in background
-      preloadRemainingImages();
+      const elapsedTime = Date.now() - startTime;
+      const remainingDelay = Math.max(0, MIN_LOADER_TIME - elapsedTime);
+
+      setTimeout(() => {
+        setIsInitialLoading(false);
+        // Stage 2: While user views splash/home screen, preload all remaining app images in background
+        preloadRemainingImages();
+      }, remainingDelay);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -248,16 +256,8 @@ export default function App() {
   if (isInitialLoading) {
     return (
       <MobileFrame>
-        <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-b from-[#FFE6F0] via-[#FFF0F6] to-[#FFF8FA] p-6 text-center space-y-4">
+        <div className="flex-1 flex items-center justify-center bg-[#FFF8FA]">
           <div className="loader"></div>
-          <div className="space-y-1">
-            <h1 className="text-sm font-extrabold text-[#E91E63] tracking-wider uppercase">
-              Thaai Clinic
-            </h1>
-            <p className="text-[11px] text-gray-500 font-medium">
-              Loading healthcare experience...
-            </p>
-          </div>
         </div>
       </MobileFrame>
     );
