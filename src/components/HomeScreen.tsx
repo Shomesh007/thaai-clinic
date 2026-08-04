@@ -140,7 +140,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               {/* Doctor Avatar with Online Status Dot */}
               <div className="relative shrink-0">
                 <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-pink-100 via-rose-50 to-pink-50 border border-pink-200 shadow-2xs overflow-hidden">
-                  <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthikeyan" className="w-full h-full object-cover" />
+                  <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthigeyan" className="w-full h-full object-cover" />
                 </div>
                 <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full" title="Available Today"></span>
               </div>
@@ -157,7 +157,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
 
                 <h2 className="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight pt-0.5">
-                  Dr. Sakthimaindan Karthikeyan
+                  Dr. Sakthimaindan Karthigeyan
                 </h2>
                 <p className="text-[11px] text-gray-500 font-semibold">
                   MBBS, CCH, CCPE, ACDM (UK)

@@ -30,7 +30,7 @@ export const HealthRecordsScreen: React.FC<HealthRecordsScreenProps> = ({
   // Upload Form State
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<'Prescription' | 'Lab Report' | 'Vaccination' | 'Doctor Note'>('Prescription');
-  const [doctorName, setDoctorName] = useState('Dr. Sakthimaindan Karthikeyan');
+  const [doctorName, setDoctorName] = useState('Dr. Sakthimaindan Karthigeyan');
   const [summary, setSummary] = useState('');
 
   const categories = ['All', 'Prescription', 'Lab Report', 'Vaccination', 'Doctor Note'];

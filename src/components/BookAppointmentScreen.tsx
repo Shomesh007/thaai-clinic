@@ -77,7 +77,7 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
 
     const newAppt: Appointment = {
       id: `THAAI-2024-${Math.floor(1000 + Math.random() * 9000)}`,
-      doctorName: 'Dr. Sakthimaindan Karthikeyan',
+      doctorName: 'Dr. Sakthimaindan Karthigeyan',
       doctorSpecialty: 'General Physician',
       date: selectedDate.full,
       rawDate: selectedDate.raw,
@@ -107,11 +107,11 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
         {/* Doctor Summary Header */}
         <section className="p-4 rounded-2xl bg-white border border-gray-100 shadow-xs flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-pink-100 shadow-2xs shrink-0">
-            <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthikeyan" className="w-full h-full object-cover" />
+            <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthigeyan" className="w-full h-full object-cover" />
           </div>
           <div>
             <h2 className="text-base font-bold text-gray-900 leading-tight">
-              Dr. Sakthimaindan Karthikeyan
+              Dr. Sakthimaindan Karthigeyan
             </h2>
             <p className="text-pink-600 font-semibold text-xs mt-0.5">
               General Physician

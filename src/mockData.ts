@@ -3,7 +3,7 @@ import { Appointment, HealthRecord, HealthTip, NotificationItem } from './types'
 export const INITIAL_APPOINTMENTS: Appointment[] = [
   {
     id: 'THAAI-2024-8821',
-    doctorName: 'Dr. Sakthimaindan Karthikeyan',
+    doctorName: 'Dr. Sakthimaindan Karthigeyan',
     doctorSpecialty: 'General Physician',
     date: 'Wed, 22 May 2024',
     rawDate: '2024-05-22',
@@ -17,7 +17,7 @@ export const INITIAL_APPOINTMENTS: Appointment[] = [
   },
   {
     id: 'THAAI-2024-7102',
-    doctorName: 'Dr. Sakthimaindan Karthikeyan',
+    doctorName: 'Dr. Sakthimaindan Karthigeyan',
     doctorSpecialty: 'General Physician',
     date: 'Fri, 12 Apr 2024',
     rawDate: '2024-04-12',
@@ -37,7 +37,7 @@ export const INITIAL_HEALTH_RECORDS: HealthRecord[] = [
     title: 'General Consultation & Prescription',
     category: 'Prescription',
     date: '12 Apr 2024',
-    doctorName: 'Dr. Sakthimaindan Karthikeyan',
+    doctorName: 'Dr. Sakthimaindan Karthigeyan',
     fileSize: '1.2 MB',
     summary: 'Prescribed Paracetamol 500mg, Cetirizine 10mg, Multivitamin supplements for 5 days.',
   },
@@ -55,7 +55,7 @@ export const INITIAL_HEALTH_RECORDS: HealthRecord[] = [
     title: 'Annual Child Immunization Chart',
     category: 'Vaccination',
     date: '15 Jan 2024',
-    doctorName: 'Dr. Sakthimaindan Karthikeyan',
+    doctorName: 'Dr. Sakthimaindan Karthigeyan',
     fileSize: '850 KB',
     summary: 'Boosters administered. Next scheduled booster due in December 2024.',
   },
@@ -87,7 +87,7 @@ export const INITIAL_HEALTH_TIPS: HealthTip[] = [
       'Physical activity increases glucose uptake by skeletal muscle cells without requiring extra insulin.',
       'Aim for a regular brisk walk during cooler morning hours.',
       'Pair physical exercise with fiber-rich foods like whole grains, legumes, and fresh leafy greens.',
-      'Monitor blood glucose levels regularly as advised by Dr. Sakthimaindan Karthikeyan.',
+      'Monitor blood glucose levels regularly as advised by Dr. Sakthimaindan Karthigeyan.',
     ],
     likes: 210,
     isLiked: true,
@@ -125,7 +125,7 @@ export const INITIAL_NOTIFICATIONS: NotificationItem[] = [
   {
     id: 'NOTIF-1',
     title: 'Upcoming Appointment Reminder',
-    message: 'Your appointment with Dr. Sakthimaindan Karthikeyan is scheduled for Today, 22 May at 10:30 AM.',
+    message: 'Your appointment with Dr. Sakthimaindan Karthigeyan is scheduled for Today, 22 May at 10:30 AM.',
     time: '10 mins ago',
     read: false,
     type: 'appointment',

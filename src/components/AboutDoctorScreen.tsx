@@ -128,13 +128,13 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
 
   return (
     <article
-      aria-label="About Dr. Sakthimaindan Karthikeyan - General Physician at Thaai Clinic Karaikal"
+      aria-label="About Dr. Sakthimaindan Karthigeyan - General Physician at Thaai Clinic Karaikal"
       itemScope
       itemType="https://schema.org/Physician"
       className="flex-1 overflow-y-auto pb-20 bg-[#FFF8FA] text-gray-800 selection:bg-pink-100 selection:text-pink-600"
     >
       {/* ── SEO: Schema.org hidden metadata ─────────────────────────── */}
-      <meta itemProp="name" content="Dr. Sakthimaindan Karthikeyan" />
+      <meta itemProp="name" content="Dr. Sakthimaindan Karthigeyan" />
       <meta itemProp="jobTitle" content="General Physician" />
       <meta itemProp="medicalSpecialty" content="General Practice, Diabetes Care, Family Medicine" />
       <meta itemProp="telephone" content="+919876543210" />
@@ -142,7 +142,7 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
       <meta itemProp="alumniOf" content="Indira Gandhi Medical College & Research Institute" />
       <meta itemProp="hasCredential" content="MBBS, Fellowship in Diabetes Mellitus (Apollo, MedVersity FZC – UK Accreditation), Advanced Certification in Diabetes (Apollo Hospitals), Fellowship (Medvarsity)" />
       <meta itemProp="knowsAbout" content="Diabetes Management, Child Health, Preventive Medicine, Respiratory Care, General Consultation, Family Medicine, Telemedicine" />
-      <meta itemProp="description" content="Dr. Sakthimaindan Karthikeyan is a General Physician at Thaai Clinic, Karaikal. MBBS from Indira Gandhi Medical College (2019–2025, graduated with distinction), with specialised Fellowships in Diabetes Mellitus from Apollo Chennai, MedVersity FZC (UK Accreditation), and Medvarsity. He has served as Medical Officer across 10+ hospitals in Pondicherry & Karaikal and delivers compassionate family care in general medicine, diabetes, child health & preventive care." />
+      <meta itemProp="description" content="Dr. Sakthimaindan Karthigeyan is a General Physician at Thaai Clinic, Karaikal. MBBS from Indira Gandhi Medical College (2019–2025, graduated with distinction), with specialised Fellowships in Diabetes Mellitus from Apollo Chennai, MedVersity FZC (UK Accreditation), and Medvarsity. He has served as Medical Officer across 10+ hospitals in Pondicherry & Karaikal and delivers compassionate family care in general medicine, diabetes, child health & preventive care." />
 
       {/* ── TOP HEADER ────────────────────────────────────────────────── */}
       <header className="relative bg-gradient-to-b from-[#FFE6F0] via-[#FFF0F6] to-[#FFF8FA] pt-3 pb-5 px-4">
@@ -194,7 +194,7 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
             {/* Doctor avatar */}
             <div className="relative shrink-0">
               <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-gradient-to-tr from-pink-100 via-rose-50 to-pink-100 border-4 border-white shadow-md flex items-center justify-center overflow-hidden">
-                <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthikeyan" className="w-full h-full object-cover" />
+                <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthigeyan" className="w-full h-full object-cover" />
               </div>
               {/* Available indicator */}
               <span className="absolute -bottom-1 -right-1 bg-emerald-500 border-[3px] border-white text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full shadow-xs">
@@ -209,7 +209,7 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
                 itemProp="name"
               >
                 Dr. Sakthimaindan<br />
-                <span className="text-lg sm:text-xl font-bold text-slate-600">Karthikeyan</span>
+                <span className="text-lg sm:text-xl font-bold text-slate-600">Karthigeyan</span>
               </h2>
 
               <p className="text-xs sm:text-sm font-bold text-[#E91E63] leading-snug">
@@ -598,10 +598,10 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Physician',
-            name: 'Dr. Sakthimaindan Karthikeyan',
+            name: 'Dr. Sakthimaindan Karthigeyan',
             jobTitle: 'General Physician',
             description:
-              'Dr. Sakthimaindan Karthikeyan is a General Physician at Thaai Clinic, Karaikal. MBBS from Indira Gandhi Medical College & Research Institute (2019–2025, graduated with distinction). Fellowship in Diabetes Mellitus from Apollo Hospital Chennai, MedVersity FZC (UK Accreditation), and Medvarsity. Advanced Certification in Diabetes from Apollo Hospitals. He has served as Medical Officer across 10+ hospitals in Pondicherry & Karaikal and delivers compassionate family care in general medicine, diabetes, child health & preventive care.',
+              'Dr. Sakthimaindan Karthigeyan is a General Physician at Thaai Clinic, Karaikal. MBBS from Indira Gandhi Medical College & Research Institute (2019–2025, graduated with distinction). Fellowship in Diabetes Mellitus from Apollo Hospital Chennai, MedVersity FZC (UK Accreditation), and Medvarsity. Advanced Certification in Diabetes from Apollo Hospitals. He has served as Medical Officer across 10+ hospitals in Pondicherry & Karaikal and delivers compassionate family care in general medicine, diabetes, child health & preventive care.',
             telephone: '+919876543210',
             url: 'https://thaaiclinic.com/about-doctor',
             alumniOf: {

@@ -55,11 +55,11 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
         <div className="p-4.5 rounded-3xl bg-white border border-gray-100 shadow-sm space-y-3.5">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-pink-100 shadow-2xs shrink-0">
-              <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthikeyan" className="w-full h-full object-cover" />
+              <img src={drSakthiImage} alt="Dr. Sakthimaindan Karthigeyan" className="w-full h-full object-cover" />
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-tight">
-                Dr. Sakthimaindan<br />Karthikeyan
+                Dr. Sakthimaindan<br />Karthigeyan
               </h2>
               <p className="text-xs sm:text-sm font-semibold text-[#D8005A] mt-1">
                 General Physician

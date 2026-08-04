@@ -76,7 +76,7 @@ export const ClinicInfoScreen: React.FC<ClinicInfoScreenProps> = ({
             <img src={drSakthiImage} alt="Dr. Sakthimaindan" className="w-13 h-13 rounded-2xl object-cover border border-pink-200 shadow-2xs shrink-0" />
             <div>
               <h4 className="font-extrabold text-gray-900 text-sm">
-                Dr. Sakthimaindan Karthikeyan
+                Dr. Sakthimaindan Karthigeyan
               </h4>
               <p className="text-xs text-pink-600 font-bold">General Physician</p>
               <p className="text-[11px] text-gray-600 font-medium mt-0.5">
