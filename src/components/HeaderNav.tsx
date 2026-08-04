@@ -15,22 +15,22 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   showHeart = false,
 }) => {
   return (
-    <header className="pt-10 pb-4 px-6 flex flex-col items-center sticky top-0 bg-white/95 backdrop-blur-md z-20 border-b border-gray-100 shadow-2xs">
-      <div className="w-full flex items-center justify-between">
+    <header className="pt-3 sm:pt-4 pb-3 px-4 sm:px-6 flex flex-col items-center sticky top-0 bg-white/95 backdrop-blur-md z-20 border-b border-gray-100 shadow-2xs">
+      <div className="relative w-full min-h-10 flex items-center justify-center">
         <button
           onClick={onBack}
-          className="p-2 -ml-2 rounded-full hover:bg-pink-50 transition-colors text-pink-600 focus:outline-none"
+          className="absolute left-0 p-2 rounded-full hover:bg-pink-50 transition-colors text-pink-600 focus:outline-none"
           aria-label="Go back"
         >
           <ChevronLeft className="h-6 w-6 stroke-[2.5]" />
         </button>
-        <div className="text-center flex-1 pr-6">
-          <h1 className="text-xl font-bold text-pink-600 tracking-tight">{title}</h1>
-          {subtitle && <p className="text-xs text-gray-500 font-medium mt-0.5">{subtitle}</p>}
+        <div className="text-center max-w-[calc(100%-3.5rem)]">
+          <h1 className="text-lg sm:text-xl font-bold text-pink-600 tracking-tight leading-tight">{title}</h1>
+          {subtitle && <p className="text-[11px] sm:text-xs text-gray-500 font-medium mt-0.5 leading-tight">{subtitle}</p>}
         </div>
       </div>
       {showHeart && (
-        <div className="mt-2 text-pink-500">
+        <div className="mt-1 text-pink-500">
           <Heart className="w-4 h-4 fill-pink-500 stroke-pink-500" />
         </div>
       )}
