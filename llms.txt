@@ -1,0 +1,22 @@
+# Thaai Clinic Karaikal
+
+Thaai Clinic is a mobile-first clinic website for Dr. Sakthimaindan Karthigeyan, a general physician in Karaikal. It includes appointment booking, clinic information, consultation access, health tips, records, and profile management.
+
+## Key Pages
+
+- [Home](https://thaaiclinic.com/)
+- [Services](https://thaaiclinic.com/services)
+- [Book Appointment](https://thaaiclinic.com/book-appointment)
+- [My Appointments](https://thaaiclinic.com/appointments)
+- [Consult Now](https://thaaiclinic.com/consult-now)
+- [Health Records](https://thaaiclinic.com/health-records)
+- [Health Tips](https://thaaiclinic.com/health-tips)
+- [Clinic Info](https://thaaiclinic.com/clinic-info)
+- [About Doctor](https://thaaiclinic.com/about-doctor)
+- [Profile](https://thaaiclinic.com/profile)
+
+## Notes for Crawlers
+
+- The app is route-based and updates metadata per section.
+- The main public entry point is the home page.
+- Dr. Sakthimaindan Karthigeyan may also be searched for as “Dr. Sakthi Maindan” or “Dr Sakthi Maindan”.

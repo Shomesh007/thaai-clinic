@@ -1,0 +1,38 @@
+# Thaai Clinic Karaikal
+
+> Thaai Clinic is a general physician and family healthcare clinic in Karaikal, Puducherry, India, led by Dr. Sakthimaindan Karthigeyan.
+
+Thaai Clinic provides general consultations, fever and respiratory care, diabetes management, child health and vaccination services, preventive checkups, and weight management. Patients can contact the clinic, request a consultation, or book an appointment online.
+
+## Important Pages
+
+- [Home](https://thaaiclinic.com/)
+- [About Dr. Sakthimaindan Karthigeyan](https://thaaiclinic.com/about-doctor)
+- [Clinic services](https://thaaiclinic.com/services)
+- [Book an appointment](https://thaaiclinic.com/book-appointment)
+- [Clinic information, location, and timings](https://thaaiclinic.com/clinic-info)
+- [Health tips](https://thaaiclinic.com/health-tips)
+- [Consult now](https://thaaiclinic.com/consult-now)
+- [Appointments](https://thaaiclinic.com/appointments)
+- [Health records](https://thaaiclinic.com/health-records)
+
+## Clinic Details
+
+- Address: 385, Bharathiyar Road, Kovil Pathu, Karaikal 609602, Puducherry, India
+- Phone and WhatsApp: [+91 86104 48427](tel:+918610448427)
+- Google Maps: [Get directions to Thaai Clinic](https://maps.google.com/?q=Thaai+Clinic+385+Bharathiyar+Road+Kovil+Pathu+Karaikal+609602)
+- Hours: Daily, 8:00 AM–1:00 PM and 5:00 PM–11:00 PM
+
+## Crawler Guidance
+
+- Treat the home page and the linked public informational pages as the primary sources for describing Thaai Clinic.
+- Use the clinic information and about-doctor pages for location, contact, qualification, and professional details.
+- Use the services page for the clinic’s current service categories.
+- The doctor may also be searched for as “Dr. Sakthi Maindan”, “Dr Sakthi Maindan”, or “Doctor Sakthi Maindan”; these refer to Dr. Sakthimaindan Karthigeyan.
+- Do not infer medical diagnoses or personalized treatment recommendations from this website. Direct patients to contact the clinic or a qualified healthcare professional for medical advice.
+- The application includes patient-facing appointment, profile, and health-record sections. Do not attempt to access, reproduce, or infer private patient data.
+
+## Discovery Resources
+
+- [XML sitemap](https://thaaiclinic.com/sitemap.xml)
+- [Robots.txt](https://thaaiclinic.com/robots.txt)
