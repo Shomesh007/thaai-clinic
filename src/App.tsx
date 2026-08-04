@@ -42,7 +42,7 @@ const PATH_TO_TAB: Record<string, TabType> = {
 };
 
 const TAB_TO_PATH: Record<TabType, string> = {
-  'welcome':           '/welcome',
+  'welcome':           '/',
   'home':              '/',
   'services':          '/services',
   'appointments':      '/appointments',

@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- 1. Home Page -->
+  <!-- 1. Primary Homepage -->
   <url>
     <loc>https://thaaiclinic.com/</loc>
     <lastmod>2026-08-04</lastmod>
@@ -21,7 +21,15 @@
     </image:image>
   </url>
 
-  <!-- 2. About Doctor Page -->
+  <!-- 2. Welcome Page -->
+  <url>
+    <loc>https://thaaiclinic.com/welcome</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- 3. About Doctor Page -->
   <url>
     <loc>https://thaaiclinic.com/about-doctor</loc>
     <lastmod>2026-08-04</lastmod>
@@ -34,7 +42,7 @@
     </image:image>
   </url>
 
-  <!-- 3. Services Page -->
+  <!-- 4. Services Page -->
   <url>
     <loc>https://thaaiclinic.com/services</loc>
     <lastmod>2026-08-04</lastmod>
@@ -54,7 +62,7 @@
     </image:image>
   </url>
 
-  <!-- 4. Book Appointment Page -->
+  <!-- 5. Book Appointment Page -->
   <url>
     <loc>https://thaaiclinic.com/book-appointment</loc>
     <lastmod>2026-08-04</lastmod>
@@ -62,7 +70,7 @@
     <priority>0.90</priority>
   </url>
 
-  <!-- 5. Clinic Info & Location Page -->
+  <!-- 6. Clinic Info & Location Page -->
   <url>
     <loc>https://thaaiclinic.com/clinic-info</loc>
     <lastmod>2026-08-04</lastmod>
@@ -74,7 +82,7 @@
     </image:image>
   </url>
 
-  <!-- 6. Health Tips Page -->
+  <!-- 7. Health Tips Page -->
   <url>
     <loc>https://thaaiclinic.com/health-tips</loc>
     <lastmod>2026-08-04</lastmod>
@@ -82,7 +90,7 @@
     <priority>0.80</priority>
   </url>
 
-  <!-- 7. Consult Now Page -->
+  <!-- 8. Consult Now Page -->
   <url>
     <loc>https://thaaiclinic.com/consult-now</loc>
     <lastmod>2026-08-04</lastmod>
@@ -90,7 +98,7 @@
     <priority>0.80</priority>
   </url>
 
-  <!-- 8. My Appointments Page -->
+  <!-- 9. My Appointments Page -->
   <url>
     <loc>https://thaaiclinic.com/appointments</loc>
     <lastmod>2026-08-04</lastmod>
@@ -98,7 +106,7 @@
     <priority>0.60</priority>
   </url>
 
-  <!-- 9. Health Records Page -->
+  <!-- 10. Health Records Page -->
   <url>
     <loc>https://thaaiclinic.com/health-records</loc>
     <lastmod>2026-08-04</lastmod>
