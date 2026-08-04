@@ -111,7 +111,10 @@ export async function createAppointment(input: {
 
 export async function signInAdmin(email: string, password: string): Promise<string> {
   const client = requireSupabase();
-  const { data, error } = await client.auth.signInWithPassword({ email, password });
+  // Supabase Auth signs in with an email address. The dashboard accepts the
+  // doctor's short username and maps it to the private clinic Auth email.
+  const loginEmail = email.includes('@') ? email.trim() : `${email.trim().toLowerCase()}@thaaiclinic.com`;
+  const { data, error } = await client.auth.signInWithPassword({ email: loginEmail, password });
   if (error || !data.user) throw new Error(error?.message ?? 'Unable to sign in.');
 
   const { data: profile, error: profileError } = await client

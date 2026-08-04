@@ -166,7 +166,7 @@ export const AdminScreen: React.FC = () => {
             <p className="mt-1 text-sm text-slate-500">Sign in to manage appointment times and bookings.</p>
           </div>
           <form onSubmit={handleLogin} className="space-y-4">
-            <label className="block text-xs font-bold text-slate-600">Email<input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-1 h-12 w-full rounded-xl border border-slate-200 px-3 text-sm outline-none focus:border-pink-500" /></label>
+            <label className="block text-xs font-bold text-slate-600">Username or email<input required type="text" autoCapitalize="none" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="sakthi" className="mt-1 h-12 w-full rounded-xl border border-slate-200 px-3 text-sm outline-none focus:border-pink-500" /></label>
             <label className="block text-xs font-bold text-slate-600">Password<input required type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-1 h-12 w-full rounded-xl border border-slate-200 px-3 text-sm outline-none focus:border-pink-500" /></label>
             {errorMessage && <Notice text={errorMessage} tone="error" />}
             <button disabled={isSubmitting} className="flex h-12 w-full items-center justify-center rounded-xl bg-pink-600 text-sm font-extrabold text-white shadow-lg shadow-pink-200 disabled:opacity-50">{isSubmitting ? 'Signing in…' : 'Sign in'}</button>
