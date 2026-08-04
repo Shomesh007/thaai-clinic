@@ -1,0 +1,69 @@
+import bookApptIcon from '../assets/book_appointment.png';
+import careForAllAgesIcon from '../assets/care_for_all_ages.png';
+import childHealthIcon from '../assets/child_health.png';
+import clinicInfoIcon from '../assets/clinic_info.png';
+import communityIcon from '../assets/community.png';
+import consultNowIcon from '../assets/consult_now.png';
+import diabetesCareIcon from '../assets/diabetes_care.png';
+import drSakthiImage from '../assets/dr_sakthi_image.jpeg';
+import generalConsultationIcon from '../assets/general_consulation.png';
+import healthRecordsIcon from '../assets/health_records.png';
+import healthTipsIcon from '../assets/health_tips.png';
+import homeBg from '../assets/home-bg.png';
+import mainServicesImg from '../assets/main_services.png';
+import myApptsIcon from '../assets/my_appointments.png';
+import personalisedAttentionIcon from '../assets/personalised_attention.png';
+import respiratoryCareIcon from '../assets/respiratory_care.png';
+import thaiClinicLogo from '../assets/thai_clinic_logo.png';
+import tickMarkIcon from '../assets/tick_mark.png';
+import trustIcon from '../assets/trust.png';
+import welcomeBg from '../assets/welcome_background.png';
+
+export const ALL_APP_IMAGES = [
+  bookApptIcon,
+  careForAllAgesIcon,
+  childHealthIcon,
+  clinicInfoIcon,
+  communityIcon,
+  consultNowIcon,
+  diabetesCareIcon,
+  drSakthiImage,
+  generalConsultationIcon,
+  healthRecordsIcon,
+  healthTipsIcon,
+  homeBg,
+  mainServicesImg,
+  myApptsIcon,
+  personalisedAttentionIcon,
+  respiratoryCareIcon,
+  thaiClinicLogo,
+  tickMarkIcon,
+  trustIcon,
+  welcomeBg,
+];
+
+/** Preload all application image assets into browser cache */
+export function preloadAllImages(): Promise<void> {
+  return new Promise((resolve) => {
+    let loadedCount = 0;
+    const total = ALL_APP_IMAGES.length;
+
+    if (total === 0) {
+      resolve();
+      return;
+    }
+
+    ALL_APP_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      const handleDone = () => {
+        loadedCount++;
+        if (loadedCount >= total) {
+          resolve();
+        }
+      };
+      img.onload = handleDone;
+      img.onerror = handleDone;
+    });
+  });
+}

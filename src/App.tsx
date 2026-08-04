@@ -23,6 +23,7 @@ import {
 } from './mockData';
 
 import { Phone, MessageCircle } from 'lucide-react';
+import { preloadAllImages } from './utils/preloadImages';
 
 // ── URL ↔ TabType mapping ─────────────────────────────────────────────────
 const PATH_TO_TAB: Record<string, TabType> = {
@@ -135,9 +136,10 @@ export default function App() {
     }
   };
 
-  // Sync URL & meta on first render
+  // Sync URL & meta on first render and preload all website images upfront
   useEffect(() => {
     updatePageMeta(activeTab);
+    preloadAllImages();
     const path = TAB_TO_PATH[activeTab] ?? '/';
     if (window.location.pathname !== path) {
       window.history.replaceState({ tab: activeTab }, '', path);
