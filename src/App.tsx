@@ -12,6 +12,7 @@ import { ProfileScreen } from './components/ProfileScreen';
 import { ClinicInfoScreen } from './components/ClinicInfoScreen';
 import { ConsultNowScreen } from './components/ConsultNowScreen';
 import { AboutDoctorScreen } from './components/AboutDoctorScreen';
+import { AdminScreen } from './components/AdminScreen';
 import { NotificationsDrawer } from './components/NotificationsDrawer';
 
 import { TabType, Appointment, HealthRecord, HealthTip, NotificationItem } from './types';
@@ -39,6 +40,7 @@ const PATH_TO_TAB: Record<string, TabType> = {
   '/about-doctor':     'about-doctor',
   '/profile':          'profile',
   '/welcome':          'welcome',
+  '/admin':            'admin',
 };
 
 const TAB_TO_PATH: Record<TabType, string> = {
@@ -53,9 +55,11 @@ const TAB_TO_PATH: Record<TabType, string> = {
   'consult-now':       '/consult-now',
   'about-doctor':      '/about-doctor',
   'profile':           '/profile',
+  'admin':             '/admin',
 };
 
 const TAB_META: Record<TabType, { title: string; description: string }> = {
+  'admin':             { title: 'Clinic Admin - Thaai Clinic Karaikal', description: 'Protected clinic appointment management dashboard.' },
   'welcome':           { title: 'Thaai Clinic Karaikal | Dr. Sakthimaindan', description: 'Welcome to Thaai Clinic, Karaikal. General physician Dr. Sakthimaindan Karthigeyan.' },
   'home':              { title: 'Thaai Clinic Karaikal | General Physician in Karaikal', description: 'Thaai Clinic, Karaikal – Compassionate care for you & your family. Walk-in & appointments available.' },
   'services':          { title: 'Services – Thaai Clinic Karaikal | Child Health, Diabetes & More', description: 'Child health, diabetes care, fever treatment, respiratory care, health checkups & more at Thaai Clinic Karaikal.' },
@@ -344,10 +348,12 @@ export default function App() {
             unreadCount={unreadNotifCount}
           />
         )}
+
+        {activeTab === 'admin' && <AdminScreen />}
       </main>
 
       {/* Global Bottom Navigation (Hidden on Welcome Screen) */}
-      {activeTab !== 'welcome' && (
+      {activeTab !== 'welcome' && activeTab !== 'admin' && (
         <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       )}
 

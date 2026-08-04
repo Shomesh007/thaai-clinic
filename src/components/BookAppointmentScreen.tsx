@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   User,
   ChevronLeft,
@@ -14,6 +14,15 @@ import {
 import { HeaderNav } from './HeaderNav';
 import { Appointment } from '../types';
 import drSakthiImage from '../assets/dr_sakthi_image.jpeg';
+import {
+  createAppointment,
+  dateToKey,
+  formatDateLabel,
+  formatTimeLabel,
+  getAvailableSlots,
+  type AvailabilitySlot,
+} from '../lib/appointments';
+import { isSupabaseConfigured } from '../lib/supabase';
 
 interface BookAppointmentScreenProps {
   onBack: () => void;
@@ -24,32 +33,6 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
   onBack,
   onAppointmentBooked,
 }) => {
-  // Generate date options
-  const dates = [
-    { day: 'Wed', date: '22', month: 'May', full: 'Wed, 22 May 2024', raw: '2024-05-22' },
-    { day: 'Thu', date: '23', month: 'May', full: 'Thu, 23 May 2024', raw: '2024-05-23' },
-    { day: 'Fri', date: '24', month: 'May', full: 'Fri, 24 May 2024', raw: '2024-05-24' },
-    { day: 'Sat', date: '25', month: 'May', full: 'Sat, 25 May 2024', raw: '2024-05-25' },
-    { day: 'Sun', date: '26', month: 'May', full: 'Sun, 26 May 2024', raw: '2024-05-26' },
-    { day: 'Mon', date: '27', month: 'May', full: 'Mon, 27 May 2024', raw: '2024-05-27' },
-    { day: 'Tue', date: '28', month: 'May', full: 'Tue, 28 May 2024', raw: '2024-05-28' },
-  ];
-
-  const timeSlots = [
-    '09:00 AM',
-    '09:30 AM',
-    '10:00 AM',
-    '10:30 AM',
-    '11:00 AM',
-    '11:30 AM',
-    '05:00 PM',
-    '05:30 PM',
-    '06:00 PM',
-    '06:30 PM',
-    '07:00 PM',
-    '07:30 PM',
-  ];
-
   const presetReasons = [
     'General Checkup',
     'Fever, Cold & Cough',
@@ -60,8 +43,25 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
     'Other Concern',
   ];
 
-  const [selectedDate, setSelectedDate] = useState(dates[0]);
-  const [selectedTime, setSelectedTime] = useState('10:30 AM');
+  const [dateOffset, setDateOffset] = useState(0);
+  const dates = useMemo(() => {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    start.setDate(start.getDate() + dateOffset * 7);
+    return Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(start);
+      date.setDate(start.getDate() + index);
+      return formatDateLabel(dateToKey(date));
+    });
+  }, [dateOffset]);
+
+  const [selectedDate, setSelectedDate] = useState(() => formatDateLabel(dateToKey(new Date())));
+  const [availableSlots, setAvailableSlots] = useState<AvailabilitySlot[]>([]);
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [isLoadingSlots, setIsLoadingSlots] = useState(false);
+  const [isBooking, setIsBooking] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [selectedReason, setSelectedReason] = useState('General Checkup');
   const [customConcern, setCustomConcern] = useState('');
   const [patientName, setPatientName] = useState('Karthik Subramanian');
@@ -69,30 +69,70 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [bookedDetails, setBookedDetails] = useState<Appointment | null>(null);
 
-  const handleConfirm = () => {
+  const timeSlots = availableSlots.filter((slot) => slot.slot_date === selectedDate.raw);
+
+  useEffect(() => {
+    setSelectedDate(dates[0]);
+    setSelectedSlotId(null);
+    setSelectedTime(null);
+    if (!isSupabaseConfigured) return;
+
+    let cancelled = false;
+    setIsLoadingSlots(true);
+    setErrorMessage('');
+    void getAvailableSlots(dates[0].raw, dates[dates.length - 1].raw)
+      .then((slots) => {
+        if (!cancelled) setAvailableSlots(slots);
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) setErrorMessage(error instanceof Error ? error.message : 'Unable to load appointment times.');
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoadingSlots(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [dates]);
+
+  const handleDateChange = (date: typeof dates[number]) => {
+    setSelectedDate(date);
+    const firstSlot = availableSlots.find((slot) => slot.slot_date === date.raw);
+    setSelectedSlotId(firstSlot?.id ?? null);
+    setSelectedTime(firstSlot ? formatTimeLabel(firstSlot.start_time) : null);
+  };
+
+  const handleConfirm = async () => {
+    if (!selectedSlotId || !selectedTime) {
+      setErrorMessage('Please choose an available date and time first.');
+      return;
+    }
     const finalReason =
       selectedReason === 'Other Concern' && customConcern.trim()
         ? customConcern.trim()
         : selectedReason;
 
-    const newAppt: Appointment = {
-      id: `THAAI-2024-${Math.floor(1000 + Math.random() * 9000)}`,
-      doctorName: 'Dr. Sakthimaindan Karthigeyan',
-      doctorSpecialty: 'General Physician',
-      date: selectedDate.full,
-      rawDate: selectedDate.raw,
-      time: selectedTime,
-      reason: finalReason,
-      location: 'Thaai Clinic, 385, Bharathiyar Road, Kovil Pathu, Karaikal',
-      status: 'upcoming',
-      patientName: patientName || 'Patient',
-      patientPhone: patientPhone || '+91 86104 48427',
-      createdAt: new Date().toISOString(),
-    };
-
-    setBookedDetails(newAppt);
-    setShowConfirmationModal(true);
-    onAppointmentBooked(newAppt);
+    setIsBooking(true);
+    setErrorMessage('');
+    try {
+      const slot = availableSlots.find((item) => item.id === selectedSlotId);
+      if (!slot) throw new Error('That time is no longer available. Please refresh and choose another time.');
+      const newAppt = await createAppointment({
+        slotId: selectedSlotId,
+        patientName: patientName.trim() || 'Patient',
+        patientPhone: patientPhone.trim() || '+91 86104 48427',
+        date: selectedDate.raw,
+        time: slot.start_time,
+        reason: finalReason,
+      });
+      setBookedDetails(newAppt);
+      setShowConfirmationModal(true);
+      onAppointmentBooked(newAppt);
+      setAvailableSlots((slots) => slots.filter((item) => item.id !== selectedSlotId));
+    } catch (error: unknown) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to book this appointment.');
+    } finally {
+      setIsBooking(false);
+    }
   };
 
   return (
@@ -158,19 +198,21 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
 
           <div className="flex items-center gap-1">
             <button
-              className="p-1 text-gray-400 hover:text-pink-600 transition-colors"
+              onClick={() => setDateOffset((offset) => Math.max(0, offset - 1))}
+              disabled={dateOffset === 0}
+              className="p-1 text-gray-400 hover:text-pink-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Previous date"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
 
             <div className="flex-1 flex gap-2.5 overflow-x-auto hide-scrollbar py-1">
-              {dates.map((d, index) => {
+              {dates.map((d) => {
                 const isSelected = selectedDate.raw === d.raw;
                 return (
                   <button
-                    key={index}
-                    onClick={() => setSelectedDate(d)}
+                    key={d.raw}
+                    onClick={() => handleDateChange(d)}
                     className={`shrink-0 w-14 h-20 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer ${
                       isSelected
                         ? 'bg-pink-50 border-2 border-pink-500 text-pink-600 shadow-sm'
@@ -198,6 +240,7 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
             </div>
 
             <button
+              onClick={() => setDateOffset((offset) => offset + 1)}
               className="p-1 text-gray-400 hover:text-pink-600 transition-colors"
               aria-label="Next date"
             >
@@ -209,13 +252,21 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
         {/* Select Time */}
         <section className="space-y-3">
           <h3 className="text-base font-bold text-gray-900">Select Time</h3>
+          {isLoadingSlots ? (
+            <p className="rounded-xl bg-gray-50 px-4 py-4 text-xs font-semibold text-gray-500">Loading available times…</p>
+          ) : timeSlots.length === 0 ? (
+            <p className="rounded-xl bg-gray-50 px-4 py-4 text-xs font-semibold text-gray-500">
+              No times are available for {selectedDate.full}. Please use the arrows to check another date.
+            </p>
+          ) : (
           <div className="grid grid-cols-3 gap-2.5">
-            {timeSlots.map((time, idx) => {
-              const isSelected = selectedTime === time;
+            {timeSlots.map((slot) => {
+              const time = formatTimeLabel(slot.start_time);
+              const isSelected = selectedSlotId === slot.id;
               return (
                 <button
-                  key={idx}
-                  onClick={() => setSelectedTime(time)}
+                  key={slot.id}
+                  onClick={() => { setSelectedSlotId(slot.id); setSelectedTime(time); }}
                   className={`py-3 px-1 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     isSelected
                       ? 'bg-pink-600 text-white shadow-md shadow-pink-200 scale-[1.02]'
@@ -227,6 +278,7 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
               );
             })}
           </div>
+          )}
         </section>
 
         {/* Reason for Visit */}
@@ -285,11 +337,22 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
 
         {/* Confirm Appointment Action Section at end of page content */}
         <div className="pt-2 pb-6 flex flex-col items-center space-y-3">
+          {errorMessage && (
+            <p className="w-full rounded-xl bg-red-50 px-4 py-3 text-xs font-semibold text-red-700" role="alert">
+              {errorMessage}
+            </p>
+          )}
+          {!isSupabaseConfigured && (
+            <p className="w-full rounded-xl bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
+              Online booking is being connected. Please call or WhatsApp the clinic to book for now.
+            </p>
+          )}
           <button
             onClick={handleConfirm}
-            className="w-full bg-pink-600 hover:bg-pink-700 active:scale-[0.98] text-white font-extrabold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-pink-200 transition-all cursor-pointer"
+            disabled={isBooking || !isSupabaseConfigured || !selectedSlotId}
+            className="w-full bg-pink-600 hover:bg-pink-700 active:scale-[0.98] text-white font-extrabold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-pink-200 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <span className="text-base">Confirm Appointment</span>
+            <span className="text-base">{isBooking ? 'Booking…' : 'Confirm Appointment'}</span>
             <div className="bg-white rounded-full p-1 ml-1 text-pink-600">
               <ArrowRight className="h-4 w-4 stroke-[3]" />
             </div>
