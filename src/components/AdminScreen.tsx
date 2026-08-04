@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, Check, Clock3, LogOut, Plus, RefreshCw, Trash2, X } from 'lucide-react';
+import { CalendarDays, Check, ChevronDown, Clock3, LogOut, Plus, RefreshCw, Trash2, X } from 'lucide-react';
 import {
   addAdminSlot,
   closeAdminDate,
@@ -8,7 +8,6 @@ import {
   formatTimeLabel,
   getAdminAppointments,
   getAdminSlots,
-  removeAdminSlot,
   setAdminSlotAvailability,
   signInAdmin,
   signOutAdmin,
@@ -53,6 +52,7 @@ export const AdminScreen: React.FC = () => {
   const [offlinePatientName, setOfflinePatientName] = useState('');
   const [offlinePatientPhone, setOfflinePatientPhone] = useState('');
   const [offlineReason, setOfflineReason] = useState('Offline appointment');
+  const [expandedDate, setExpandedDate] = useState<string | null>(null);
 
   const loadDashboard = async () => {
     setIsLoading(true);
@@ -132,16 +132,6 @@ export const AdminScreen: React.FC = () => {
     }
   };
 
-  const handleRemoveSlot = async (id: string) => {
-    setErrorMessage('');
-    try {
-      await removeAdminSlot(id);
-      setSlots((current) => current.filter((slot) => slot.id !== id));
-    } catch (error: unknown) {
-      setErrorMessage(error instanceof Error ? error.message : 'Unable to remove this time.');
-    }
-  };
-
   const handleToggleSlot = async (id: string, isAvailable: boolean) => {
     setErrorMessage('');
     try {
@@ -152,17 +142,21 @@ export const AdminScreen: React.FC = () => {
     }
   };
 
-  const handleCloseDate = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleCloseDateValue = async (date: string) => {
     setErrorMessage('');
     setSuccessMessage('');
     try {
-      await closeAdminDate(closeDate);
-      setSlots((current) => current.map((slot) => slot.slot_date === closeDate ? { ...slot, is_available: false } : slot));
-      setSuccessMessage(`${formatDateLabel(closeDate).full} is closed for online bookings.`);
+      await closeAdminDate(date);
+      setSlots((current) => current.map((slot) => slot.slot_date === date ? { ...slot, is_available: false } : slot));
+      setSuccessMessage(`${formatDateLabel(date).full} is closed for online bookings.`);
     } catch (error: unknown) {
       setErrorMessage(error instanceof Error ? error.message : 'Unable to close this date.');
     }
+  };
+
+  const handleCloseDate = async (event: React.FormEvent) => {
+    event.preventDefault();
+    await handleCloseDateValue(closeDate);
   };
 
   const handleStatus = async (id: string, status: Appointment['status']) => {
@@ -287,11 +281,29 @@ export const AdminScreen: React.FC = () => {
               </div>
             </form>
             <div className="space-y-3">
+              {Object.entries(groupedSlots).map(([date, dateSlots]) => {
+                const openCount = dateSlots.filter((slot) => slot.is_available && !bookedSlotIds.has(slot.id)).length;
+                const bookedCount = dateSlots.filter((slot) => bookedSlotIds.has(slot.id)).length;
+                const closedCount = dateSlots.length - openCount - bookedCount;
+                const isExpanded = expandedDate === date;
+                return (
+                  <section key={`compact-${date}`} className="overflow-hidden rounded-2xl bg-white shadow-sm">
+                    <button type="button" onClick={() => setExpandedDate(isExpanded ? null : date)} className="flex w-full items-center justify-between gap-3 p-4 text-left">
+                      <span className="flex min-w-0 items-center gap-3"><CalendarDays className="h-5 w-5 shrink-0 text-pink-600" /><span><strong className="block text-sm font-extrabold text-slate-900">{formatDateLabel(date).full}</strong><span className="mt-1 block text-[11px] font-semibold text-slate-500">{openCount} open · {bookedCount} booked · {closedCount} closed</span></span></span>
+                      <ChevronDown className={`h-5 w-5 shrink-0 text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                    </button>
+                    {isExpanded && <div className="border-t border-slate-100 p-4"><div className="mb-3 flex justify-end"><button type="button" onClick={() => void handleCloseDateValue(date)} className="rounded-lg bg-slate-900 px-3 py-2 text-[10px] font-extrabold text-white">Close whole day</button></div><div className="grid grid-cols-2 gap-2">{dateSlots.map((slot) => { const booked = bookedSlotIds.has(slot.id); return <div key={`expanded-${slot.id}`} className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2"><span className="text-xs font-bold text-slate-700"><Clock3 className="mr-1 inline h-3.5 w-3.5 text-pink-500" />{formatTimeLabel(slot.start_time)}<span className={`ml-1 block text-[9px] ${booked ? 'text-amber-600' : slot.is_available ? 'text-emerald-600' : 'text-slate-400'}`}>{booked ? 'Booked' : slot.is_available ? 'Open' : 'Closed'}</span></span>{!booked && <button type="button" onClick={() => void handleToggleSlot(slot.id, !slot.is_available)} className={`rounded-lg p-1.5 ${slot.is_available ? 'text-slate-400 hover:bg-red-50 hover:text-red-600' : 'text-emerald-600 hover:bg-emerald-50'}`} aria-label={slot.is_available ? 'Close available time' : 'Reopen available time'}>{slot.is_available ? <Trash2 className="h-4 w-4" /> : <Plus className="h-4 w-4" />}</button>}</div>; })}</div></div>}
+                  </section>
+                );
+              })}
+            </div>
+            {false && <div className="hidden">
               {Object.entries(groupedSlots).map(([date, dateSlots]) => (
                 <section key={date} className="rounded-2xl bg-white p-4 shadow-sm"><h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-900"><CalendarDays className="h-4 w-4 text-pink-600" />{formatDateLabel(date).full}</h2><div className="grid grid-cols-2 gap-2">{dateSlots.map((slot) => { const booked = bookedSlotIds.has(slot.id); return <div key={slot.id} className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2"><span className="text-xs font-bold text-slate-700"><Clock3 className="mr-1 inline h-3.5 w-3.5 text-pink-500" />{formatTimeLabel(slot.start_time)}<span className={`ml-1 block text-[9px] ${booked ? 'text-amber-600' : slot.is_available ? 'text-emerald-600' : 'text-slate-400'}`}>{booked ? 'Booked' : slot.is_available ? 'Open' : 'Closed'}</span></span>{!booked && <button onClick={() => void handleToggleSlot(slot.id, !slot.is_available)} className={`rounded-lg p-1.5 ${slot.is_available ? 'text-slate-400 hover:bg-red-50 hover:text-red-600' : 'text-emerald-600 hover:bg-emerald-50'}`} aria-label={slot.is_available ? 'Close available time' : 'Reopen available time'}>{slot.is_available ? <Trash2 className="h-4 w-4" /> : <Plus className="h-4 w-4" />}</button>}</div>; })}</div></section>
               ))}
               {!slots.length && <Notice text="No future availability yet. Add the clinic's times above." />}
-            </div>
+            </div>}
+            {!slots.length && <Notice text="No future availability yet. Add the clinic's times above." />}
           </>
         )}
 
