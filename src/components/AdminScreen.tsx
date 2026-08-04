@@ -2,11 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { CalendarDays, Check, Clock3, LogOut, Plus, RefreshCw, Trash2, X } from 'lucide-react';
 import {
   addAdminSlot,
+  closeAdminDate,
+  createAdminAppointment,
   formatDateLabel,
   formatTimeLabel,
   getAdminAppointments,
   getAdminSlots,
   removeAdminSlot,
+  setAdminSlotAvailability,
   signInAdmin,
   signOutAdmin,
   updateAdminAppointmentStatus,
@@ -44,6 +47,12 @@ export const AdminScreen: React.FC = () => {
   const [slotDate, setSlotDate] = useState(todayKey);
   const [startTime, setStartTime] = useState('09:00');
   const [endTime, setEndTime] = useState('09:30');
+  const [closeDate, setCloseDate] = useState(todayKey);
+  const [offlineDate, setOfflineDate] = useState(todayKey);
+  const [offlineSlotId, setOfflineSlotId] = useState('');
+  const [offlinePatientName, setOfflinePatientName] = useState('');
+  const [offlinePatientPhone, setOfflinePatientPhone] = useState('');
+  const [offlineReason, setOfflineReason] = useState('Offline appointment');
 
   const loadDashboard = async () => {
     setIsLoading(true);
@@ -133,6 +142,29 @@ export const AdminScreen: React.FC = () => {
     }
   };
 
+  const handleToggleSlot = async (id: string, isAvailable: boolean) => {
+    setErrorMessage('');
+    try {
+      await setAdminSlotAvailability(id, isAvailable);
+      setSlots((current) => current.map((slot) => slot.id === id ? { ...slot, is_available: isAvailable } : slot));
+    } catch (error: unknown) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to update this time.');
+    }
+  };
+
+  const handleCloseDate = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrorMessage('');
+    setSuccessMessage('');
+    try {
+      await closeAdminDate(closeDate);
+      setSlots((current) => current.map((slot) => slot.slot_date === closeDate ? { ...slot, is_available: false } : slot));
+      setSuccessMessage(`${formatDateLabel(closeDate).full} is closed for online bookings.`);
+    } catch (error: unknown) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to close this date.');
+    }
+  };
+
   const handleStatus = async (id: string, status: Appointment['status']) => {
     setErrorMessage('');
     try {
@@ -145,12 +177,56 @@ export const AdminScreen: React.FC = () => {
     }
   };
 
+  const handleOfflineBooking = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const slot = slots.find((item) => item.id === offlineSlotId);
+    if (!slot) {
+      setErrorMessage('Choose an available time for the offline appointment.');
+      return;
+    }
+    setIsSubmitting(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+    try {
+      await createAdminAppointment({
+        slotId: slot.id,
+        patientName: offlinePatientName.trim(),
+        patientPhone: offlinePatientPhone.trim(),
+        date: slot.slot_date,
+        time: slot.start_time,
+        reason: offlineReason.trim() || 'Offline appointment',
+      });
+      setSuccessMessage('Offline appointment added and that time is now blocked online.');
+      setOfflinePatientName('');
+      setOfflinePatientPhone('');
+      await loadDashboard();
+    } catch (error: unknown) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to add the offline appointment.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const groupedSlots = useMemo(() => {
     return slots.reduce<Record<string, AvailabilitySlot[]>>((groups, slot) => {
       (groups[slot.slot_date] ??= []).push(slot);
       return groups;
     }, {});
   }, [slots]);
+
+  const bookedSlotIds = useMemo(() => new Set(
+    appointments.filter((appointment) => appointment.status === 'upcoming' && appointment.slot_id).map((appointment) => appointment.slot_id as string),
+  ), [appointments]);
+
+  const offlineSlots = useMemo(() => slots.filter((slot) => (
+    slot.slot_date === offlineDate && slot.is_available && !bookedSlotIds.has(slot.id)
+  )), [slots, offlineDate, bookedSlotIds]);
+
+  useEffect(() => {
+    if (!offlineSlots.some((slot) => slot.id === offlineSlotId)) {
+      setOfflineSlotId(offlineSlots[0]?.id ?? '');
+    }
+  }, [offlineSlots, offlineSlotId]);
 
   if (!isSupabaseConfigured) {
     return <div className="flex-1 overflow-y-auto bg-slate-50 p-6"><Notice text="The admin service is not configured. Add the VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY environment variables before using this page." /></div>;
@@ -201,10 +277,18 @@ export const AdminScreen: React.FC = () => {
                 <label className="text-[10px] font-bold text-slate-500">Ends<input required type="time" value={endTime} onChange={(event) => setEndTime(event.target.value)} className="mt-1 h-10 w-full rounded-lg border border-slate-200 px-2 text-xs" /></label>
               </div>
               <button disabled={isSubmitting} className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-pink-600 text-xs font-extrabold text-white disabled:opacity-50"><Plus className="h-4 w-4" />Add time</button>
+             </form>
+            <form onSubmit={handleCloseDate} className="rounded-2xl bg-white p-4 shadow-sm">
+              <h2 className="mb-1 text-sm font-extrabold text-slate-900">Close a whole day</h2>
+              <p className="mb-3 text-xs text-slate-500">Existing appointments stay visible, but every remaining slot is removed from online booking.</p>
+              <div className="flex gap-2">
+                <input required min={todayKey()} type="date" value={closeDate} onChange={(event) => setCloseDate(event.target.value)} className="h-10 min-w-0 flex-1 rounded-lg border border-slate-200 px-2 text-xs" />
+                <button className="rounded-xl bg-slate-900 px-3 text-xs font-extrabold text-white">Close date</button>
+              </div>
             </form>
             <div className="space-y-3">
               {Object.entries(groupedSlots).map(([date, dateSlots]) => (
-                <section key={date} className="rounded-2xl bg-white p-4 shadow-sm"><h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-900"><CalendarDays className="h-4 w-4 text-pink-600" />{formatDateLabel(date).full}</h2><div className="grid grid-cols-2 gap-2">{dateSlots.map((slot) => <div key={slot.id} className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2"><span className="text-xs font-bold text-slate-700"><Clock3 className="mr-1 inline h-3.5 w-3.5 text-pink-500" />{formatTimeLabel(slot.start_time)}</span><button onClick={() => void handleRemoveSlot(slot.id)} className="rounded-lg p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-600" aria-label="Remove available time"><Trash2 className="h-4 w-4" /></button></div>)}</div></section>
+                <section key={date} className="rounded-2xl bg-white p-4 shadow-sm"><h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-900"><CalendarDays className="h-4 w-4 text-pink-600" />{formatDateLabel(date).full}</h2><div className="grid grid-cols-2 gap-2">{dateSlots.map((slot) => { const booked = bookedSlotIds.has(slot.id); return <div key={slot.id} className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2"><span className="text-xs font-bold text-slate-700"><Clock3 className="mr-1 inline h-3.5 w-3.5 text-pink-500" />{formatTimeLabel(slot.start_time)}<span className={`ml-1 block text-[9px] ${booked ? 'text-amber-600' : slot.is_available ? 'text-emerald-600' : 'text-slate-400'}`}>{booked ? 'Booked' : slot.is_available ? 'Open' : 'Closed'}</span></span>{!booked && <button onClick={() => void handleToggleSlot(slot.id, !slot.is_available)} className={`rounded-lg p-1.5 ${slot.is_available ? 'text-slate-400 hover:bg-red-50 hover:text-red-600' : 'text-emerald-600 hover:bg-emerald-50'}`} aria-label={slot.is_available ? 'Close available time' : 'Reopen available time'}>{slot.is_available ? <Trash2 className="h-4 w-4" /> : <Plus className="h-4 w-4" />}</button>}</div>; })}</div></section>
               ))}
               {!slots.length && <Notice text="No future availability yet. Add the clinic's times above." />}
             </div>
@@ -213,11 +297,22 @@ export const AdminScreen: React.FC = () => {
 
         {activeTab === 'appointments' && (
           <div className="space-y-3">
+            <form onSubmit={handleOfflineBooking} className="rounded-2xl bg-white p-4 shadow-sm">
+              <h2 className="mb-1 text-sm font-extrabold text-slate-900">Add offline appointment</h2>
+              <p className="mb-3 text-xs text-slate-500">Use this for walk-ins or appointments booked by phone. The selected time will be blocked online.</p>
+              <div className="space-y-2">
+                <input required min={todayKey()} type="date" value={offlineDate} onChange={(event) => setOfflineDate(event.target.value)} className="h-10 w-full rounded-lg border border-slate-200 px-2 text-xs" />
+                <select required value={offlineSlotId} onChange={(event) => setOfflineSlotId(event.target.value)} className="h-10 w-full rounded-lg border border-slate-200 px-2 text-xs"><option value="">Choose an open time</option>{offlineSlots.map((slot) => <option key={slot.id} value={slot.id}>{formatTimeLabel(slot.start_time)} – {formatTimeLabel(slot.end_time)}</option>)}</select>
+                <div className="grid grid-cols-2 gap-2"><input required minLength={2} value={offlinePatientName} onChange={(event) => setOfflinePatientName(event.target.value)} placeholder="Patient name" className="h-10 rounded-lg border border-slate-200 px-2 text-xs" /><input required minLength={7} value={offlinePatientPhone} onChange={(event) => setOfflinePatientPhone(event.target.value)} placeholder="Phone number" className="h-10 rounded-lg border border-slate-200 px-2 text-xs" /></div>
+                <input required minLength={2} value={offlineReason} onChange={(event) => setOfflineReason(event.target.value)} placeholder="Reason for visit" className="h-10 w-full rounded-lg border border-slate-200 px-2 text-xs" />
+                <button disabled={isSubmitting || !offlineSlotId} className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-slate-900 text-xs font-extrabold text-white disabled:opacity-50"><CalendarDays className="h-4 w-4" />Save offline appointment</button>
+              </div>
+            </form>
             {!appointments.length && <Notice text="No appointments have been booked yet." />}
             {appointments.map((appointment) => (
               <article key={appointment.id} className="rounded-2xl bg-white p-4 shadow-sm">
                 <div className="flex items-start justify-between gap-3"><div><p className="text-sm font-extrabold text-slate-900">{appointment.patient_name}</p><p className="mt-1 text-xs font-semibold text-pink-600">{formatDateLabel(appointment.appointment_date).full} · {formatTimeLabel(appointment.appointment_time)}</p></div><span className={`rounded-full px-2 py-1 text-[10px] font-extrabold uppercase ${statusClasses(appointment.status)}`}>{appointment.status}</span></div>
-                <p className="mt-3 text-xs text-slate-600">{appointment.reason}</p><p className="mt-2 text-xs font-semibold text-slate-700">{appointment.patient_phone}</p><p className="mt-2 font-mono text-[10px] text-slate-400">{appointment.reference_code}</p>
+                <p className="mt-3 text-xs text-slate-600">{appointment.reason}</p><p className="mt-2 text-xs font-semibold text-slate-700">{appointment.patient_phone}</p><p className="mt-2 flex items-center gap-1 text-[10px] font-bold uppercase text-slate-400">{appointment.booking_source === 'offline' ? 'Offline / walk-in' : 'Online booking'} · <span className="font-mono normal-case">{appointment.reference_code}</span></p>
                 {appointment.status === 'upcoming' && <div className="mt-3 flex gap-2"><button onClick={() => void handleStatus(appointment.id, 'completed')} className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-emerald-50 py-2 text-[11px] font-extrabold text-emerald-700"><Check className="h-3.5 w-3.5" />Complete</button><button onClick={() => void handleStatus(appointment.id, 'cancelled')} className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-red-50 py-2 text-[11px] font-extrabold text-red-700"><X className="h-3.5 w-3.5" />Cancel</button></div>}
               </article>
             ))}

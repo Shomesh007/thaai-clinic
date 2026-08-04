@@ -19,6 +19,7 @@ export interface AdminAppointment {
   appointment_time: string;
   reason: string;
   status: Appointment['status'];
+  booking_source: 'online' | 'offline';
   created_at: string;
 }
 
@@ -52,17 +53,23 @@ export function formatTimeLabel(time: string): string {
 }
 
 export async function getAvailableSlots(from: string, to: string): Promise<AvailabilitySlot[]> {
-  const { data, error } = await requireSupabase()
-    .from('availability_slots')
-    .select('id, slot_date, start_time, end_time, is_available')
-    .eq('is_available', true)
-    .gte('slot_date', from)
-    .lte('slot_date', to)
-    .order('slot_date', { ascending: true })
-    .order('start_time', { ascending: true });
+  const client = requireSupabase();
+  const [{ data, error }, { data: locks, error: lockError }] = await Promise.all([
+    client
+      .from('availability_slots')
+      .select('id, slot_date, start_time, end_time, is_available')
+      .eq('is_available', true)
+      .gte('slot_date', from)
+      .lte('slot_date', to)
+      .order('slot_date', { ascending: true })
+      .order('start_time', { ascending: true }),
+    client.from('appointment_slot_locks').select('slot_id'),
+  ]);
 
   if (error) throw new Error(getErrorMessage(error));
-  return (data ?? []) as AvailabilitySlot[];
+  if (lockError) throw new Error(getErrorMessage(lockError));
+  const bookedSlotIds = new Set((locks ?? []).map((lock) => lock.slot_id as string));
+  return ((data ?? []) as AvailabilitySlot[]).filter((slot) => !bookedSlotIds.has(slot.id));
 }
 
 export async function createAppointment(input: {
@@ -161,14 +168,33 @@ export async function addAdminSlot(input: { date: string; startTime: string; end
 }
 
 export async function removeAdminSlot(id: string): Promise<void> {
-  const { error } = await requireSupabase().from('availability_slots').delete().eq('id', id);
+  const { error } = await requireSupabase()
+    .from('availability_slots')
+    .update({ is_available: false })
+    .eq('id', id);
+  if (error) throw new Error(getErrorMessage(error));
+}
+
+export async function setAdminSlotAvailability(id: string, isAvailable: boolean): Promise<void> {
+  const { error } = await requireSupabase()
+    .from('availability_slots')
+    .update({ is_available: isAvailable })
+    .eq('id', id);
+  if (error) throw new Error(getErrorMessage(error));
+}
+
+export async function closeAdminDate(date: string): Promise<void> {
+  const { error } = await requireSupabase()
+    .from('availability_slots')
+    .update({ is_available: false })
+    .eq('slot_date', date);
   if (error) throw new Error(getErrorMessage(error));
 }
 
 export async function getAdminAppointments(): Promise<AdminAppointment[]> {
   const { data, error } = await requireSupabase()
     .from('appointments')
-    .select('id, reference_code, slot_id, patient_name, patient_phone, appointment_date, appointment_time, reason, status, created_at')
+    .select('id, reference_code, slot_id, patient_name, patient_phone, appointment_date, appointment_time, reason, status, booking_source, created_at')
     .order('appointment_date', { ascending: true })
     .order('appointment_time', { ascending: true });
   if (error) throw new Error(getErrorMessage(error));
@@ -178,4 +204,30 @@ export async function getAdminAppointments(): Promise<AdminAppointment[]> {
 export async function updateAdminAppointmentStatus(id: string, status: Appointment['status']): Promise<void> {
   const { error } = await requireSupabase().from('appointments').update({ status }).eq('id', id);
   if (error) throw new Error(getErrorMessage(error));
+}
+
+export async function createAdminAppointment(input: {
+  slotId: string;
+  patientName: string;
+  patientPhone: string;
+  date: string;
+  time: string;
+  reason: string;
+}): Promise<void> {
+  const referenceCode = `THAAI-OFFLINE-${new Date().getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+  const { error } = await requireSupabase().from('appointments').insert({
+    reference_code: referenceCode,
+    slot_id: input.slotId,
+    patient_name: input.patientName,
+    patient_phone: input.patientPhone,
+    appointment_date: input.date,
+    appointment_time: input.time,
+    reason: input.reason,
+    status: 'upcoming',
+    booking_source: 'offline',
+  });
+  if (error) {
+    if (error.code === '23505') throw new Error('That time has already been booked. Choose another slot.');
+    throw new Error(getErrorMessage(error));
+  }
 }
