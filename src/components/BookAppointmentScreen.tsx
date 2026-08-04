@@ -65,7 +65,7 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
   const [selectedReason, setSelectedReason] = useState('General Checkup');
   const [customConcern, setCustomConcern] = useState('');
   const [patientName, setPatientName] = useState('Karthik Subramanian');
-  const [patientPhone, setPatientPhone] = useState('+91 98765 43210');
+  const [patientPhone, setPatientPhone] = useState('+91 86104 48427');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [bookedDetails, setBookedDetails] = useState<Appointment | null>(null);
 
@@ -86,7 +86,7 @@ export const BookAppointmentScreen: React.FC<BookAppointmentScreenProps> = ({
       location: 'Thaai Clinic, 385, Bharathiyar Road, Kovil Pathu, Karaikal',
       status: 'upcoming',
       patientName: patientName || 'Patient',
-      patientPhone: patientPhone || '+91 98765 43210',
+      patientPhone: patientPhone || '+91 86104 48427',
       createdAt: new Date().toISOString(),
     };
 

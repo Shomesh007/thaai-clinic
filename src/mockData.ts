@@ -12,7 +12,7 @@ export const INITIAL_APPOINTMENTS: Appointment[] = [
     location: 'Thaai Clinic, 385, Bharathiyar Road, Kovil Pathu, Karaikal',
     status: 'completed',
     patientName: 'Karthik Subramanian',
-    patientPhone: '+91 98765 43210',
+    patientPhone: '+91 86104 48427',
     createdAt: '2024-05-20T10:00:00Z',
   },
   {
@@ -26,7 +26,7 @@ export const INITIAL_APPOINTMENTS: Appointment[] = [
     location: 'Thaai Clinic, 385, Bharathiyar Road, Kovil Pathu, Karaikal',
     status: 'completed',
     patientName: 'Karthik Subramanian',
-    patientPhone: '+91 98765 43210',
+    patientPhone: '+91 86104 48427',
     createdAt: '2024-04-10T14:30:00Z',
   },
 ];

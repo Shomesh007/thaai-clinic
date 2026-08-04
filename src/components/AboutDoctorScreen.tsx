@@ -137,7 +137,7 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
       <meta itemProp="name" content="Dr. Sakthimaindan Karthigeyan" />
       <meta itemProp="jobTitle" content="General Physician" />
       <meta itemProp="medicalSpecialty" content="General Practice, Diabetes Care, Family Medicine" />
-      <meta itemProp="telephone" content="+919876543210" />
+      <meta itemProp="telephone" content="+918610448427" />
       <meta itemProp="url" content="https://thaaiclinic.com/about-doctor" />
       <meta itemProp="alumniOf" content="Indira Gandhi Medical College & Research Institute" />
       <meta itemProp="hasCredential" content="MBBS, Fellowship in Diabetes Mellitus (Apollo, MedVersity FZC – UK Accreditation), Advanced Certification in Diabetes (Apollo Hospitals), Fellowship (Medvarsity)" />
@@ -244,6 +244,17 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
               >
                 General Physician at Thaai Clinic, Karaikal. MBBS from Indira Gandhi Medical College (2019–2025, graduated with distinction). Specialised Fellowships in Diabetes from Apollo Chennai, MedVersity FZC (UK Accreditation) & Medvarsity. Served as Medical Officer across 10+ hospitals in Pondicherry & Karaikal.
               </p>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
+                Patients may also search for the doctor as <strong>Dr. Sakthi Maindan</strong> or <strong>Dr Sakthi Maindan</strong>.
+              </p>
+              <a
+                href="https://www.linkedin.com/in/sakthimaindan-k-karthigeyan-409b64261/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block text-[11px] font-bold text-[#0A66C2] hover:underline"
+              >
+                View LinkedIn profile
+              </a>
             </div>
 
           </div>
@@ -397,7 +408,7 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
           className="bg-white rounded-3xl p-4 sm:p-5 border border-pink-100/90 shadow-2xs space-y-4"
         >
           <meta itemProp="name" content="Thaai Clinic Karaikal" />
-          <meta itemProp="telephone" content="+919876543210" />
+          <meta itemProp="telephone" content="+918610448427" />
 
           {/* Clinic name header */}
           <div className="flex items-center gap-3">
@@ -432,11 +443,11 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
             <div>
               <h4 className="text-xs font-bold text-[#E91E63]">Phone</h4>
               <a
-                href="tel:+919876543210"
+                href="tel:+918610448427"
                 itemProp="telephone"
                 className="text-xs font-extrabold text-slate-900 block mt-0.5 hover:text-[#E91E63] transition-colors"
               >
-                +91 98765 43210
+                +91 86104 48427
               </a>
             </div>
           </div>
@@ -533,8 +544,8 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
             </div>
             <p className="text-xs text-gray-600 font-medium leading-snug pl-9">
               Call or WhatsApp us at<br />
-              <a href="tel:+919876543210" className="font-extrabold text-[#E91E63] hover:underline text-xs inline-block my-0.5">
-                +91 98765 43210
+              <a href="tel:+918610448427" className="font-extrabold text-[#E91E63] hover:underline text-xs inline-block my-0.5">
+                +91 86104 48427
               </a><br />
               or use the Book Appointment button.
             </p>
@@ -599,10 +610,12 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
             '@context': 'https://schema.org',
             '@type': 'Physician',
             name: 'Dr. Sakthimaindan Karthigeyan',
+            alternateName: ['Dr. Sakthi Maindan Karthigeyan', 'Dr Sakthi Maindan', 'Doctor Sakthi Maindan'],
+            sameAs: ['https://www.linkedin.com/in/sakthimaindan-k-karthigeyan-409b64261/'],
             jobTitle: 'General Physician',
             description:
               'Dr. Sakthimaindan Karthigeyan is a General Physician at Thaai Clinic, Karaikal. MBBS from Indira Gandhi Medical College & Research Institute (2019–2025, graduated with distinction). Fellowship in Diabetes Mellitus from Apollo Hospital Chennai, MedVersity FZC (UK Accreditation), and Medvarsity. Advanced Certification in Diabetes from Apollo Hospitals. He has served as Medical Officer across 10+ hospitals in Pondicherry & Karaikal and delivers compassionate family care in general medicine, diabetes, child health & preventive care.',
-            telephone: '+919876543210',
+            telephone: '+918610448427',
             url: 'https://thaaiclinic.com/about-doctor',
             alumniOf: {
               '@type': 'CollegeOrUniversity',
@@ -662,7 +675,7 @@ export const AboutDoctorScreen: React.FC<AboutDoctorScreenProps> = ({
                 addressRegion: 'Puducherry',
                 addressCountry: 'IN',
               },
-              telephone: '+919876543210',
+              telephone: '+918610448427',
               openingHours: ['Mo-Su 08:00-13:00', 'Mo-Su 17:00-23:00'],
             },
           }),

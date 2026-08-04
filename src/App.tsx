@@ -63,7 +63,7 @@ const TAB_META: Record<TabType, { title: string; description: string }> = {
   'book-appointment':  { title: 'Book Appointment – Thaai Clinic Karaikal | Dr. Sakthimaindan', description: 'Book an appointment with Dr. Sakthimaindan Karthigeyan at Thaai Clinic, Karaikal. Walk-in or schedule online.' },
   'health-tips':       { title: 'Health Tips – Thaai Clinic Karaikal | Wellness & Nutrition', description: 'Expert health tips on wellness, nutrition, chronic care, and child health from Dr. Sakthimaindan, Karaikal.' },
   'health-records':    { title: 'Health Records – Thaai Clinic Karaikal', description: 'View and manage your personal health records at Thaai Clinic Karaikal.' },
-  'clinic-info':       { title: 'Clinic Info – Thaai Clinic | 385 Bharathiyar Road, Karaikal', description: 'Thaai Clinic, 385 Bharathiyar Road, Kovil Pathu, Karaikal. Timings: 8AM–1PM & 5PM–11PM. Call +91 98765 43210.' },
+  'clinic-info':       { title: 'Clinic Info – Thaai Clinic | 385 Bharathiyar Road, Karaikal', description: 'Thaai Clinic, 385 Bharathiyar Road, Kovil Pathu, Karaikal. Timings: 8AM–1PM & 5PM–11PM. Call +91 86104 48427.' },
   'consult-now':       { title: 'Consult Now – Thaai Clinic Karaikal', description: 'Get quick consultation at Thaai Clinic Karaikal. Call or WhatsApp Dr. Sakthimaindan now.' },
   'about-doctor':      { title: 'Dr. Sakthimaindan Karthigeyan – General Physician Karaikal | MBBS', description: 'About Dr. Sakthimaindan Karthigeyan, MBBS. General Physician at Thaai Clinic, Karaikal. Specialised in diabetes, child health & family medicine.' },
   'profile':           { title: 'Profile – Thaai Clinic Karaikal', description: 'Manage your profile at Thaai Clinic Karaikal.' },
@@ -379,7 +379,7 @@ export default function App() {
             </div>
             <div>
               <h3 className="font-extrabold text-gray-900 text-base">Call Thaai Clinic</h3>
-              <p className="text-xs text-pink-600 font-bold mt-1">+91 98765 43210</p>
+              <p className="text-xs text-pink-600 font-bold mt-1">+91 86104 48427</p>
               <p className="text-[11px] text-gray-500 mt-1">
                 385, Bharathiyar Road, Kovil Pathu, Karaikal
               </p>
@@ -392,7 +392,7 @@ export default function App() {
                 Cancel
               </button>
               <a
-                href="tel:+919876543210"
+                href="tel:+918610448427"
                 className="flex-1 bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 rounded-2xl text-xs shadow-md shadow-pink-200 flex items-center justify-center gap-1"
               >
                 Call Now
@@ -411,7 +411,7 @@ export default function App() {
             </div>
             <div>
               <h3 className="font-extrabold text-gray-900 text-base">WhatsApp Consultation</h3>
-              <p className="text-xs text-emerald-600 font-bold mt-1">+91 98765 43210</p>
+              <p className="text-xs text-emerald-600 font-bold mt-1">+91 86104 48427</p>
               <p className="text-[11px] text-gray-500 mt-1">
                 Send queries, book appointments, or send lab reports directly to doctor.
               </p>
@@ -424,7 +424,7 @@ export default function App() {
                 Close
               </button>
               <a
-                href="https://wa.me/919876543210?text=Hello%20Thaai%20Clinic,%20I%20would%20like%20to%20inquire%20about%20consultation"
+                href="https://wa.me/918610448427?text=Hello%20Thaai%20Clinic,%20I%20would%20like%20to%20inquire%20about%20consultation"
                 target="_blank"
                 rel="noreferrer"
                 className="flex-1 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3 rounded-2xl text-xs shadow-md shadow-emerald-200 flex items-center justify-center gap-1"

@@ -30,7 +30,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const [language, setLanguage] = useState<'English' | 'Tamil'>('English');
   const [patient, setPatient] = useState({
     name: 'Karthik Subramanian',
-    phone: '+91 98765 43210',
+    phone: '+91 86104 48427',
     age: '34 Yrs',
     gender: 'Male',
     bloodGroup: 'O +ve',
