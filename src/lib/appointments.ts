@@ -90,6 +90,7 @@ export async function createAppointment(input: {
     appointment_time: input.time,
     reason: input.reason,
     status: 'upcoming',
+    booking_source: 'online',
   });
 
   if (error) {
