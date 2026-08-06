@@ -6,6 +6,7 @@ interface HeaderNavProps {
   subtitle?: string;
   onBack: () => void;
   showHeart?: boolean;
+  rightAction?: React.ReactNode;
 }
 
 export const HeaderNav: React.FC<HeaderNavProps> = ({
@@ -13,6 +14,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   subtitle,
   onBack,
   showHeart = false,
+  rightAction,
 }) => {
   return (
     <header className="pt-3 sm:pt-4 pb-3 px-4 sm:px-6 flex flex-col items-center sticky top-0 bg-white/95 backdrop-blur-md z-20 border-b border-gray-100 shadow-2xs">
@@ -28,6 +30,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           <h1 className="text-lg sm:text-xl font-bold text-pink-600 tracking-tight leading-tight">{title}</h1>
           {subtitle && <p className="text-[11px] sm:text-xs text-gray-500 font-medium mt-0.5 leading-tight">{subtitle}</p>}
         </div>
+        {rightAction && (
+          <div className="absolute right-0 flex items-center">
+            {rightAction}
+          </div>
+        )}
       </div>
       {showHeart && (
         <div className="mt-1 text-pink-500">
