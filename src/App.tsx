@@ -59,18 +59,18 @@ const TAB_TO_PATH: Record<TabType, string> = {
 };
 
 const TAB_META: Record<TabType, { title: string; description: string }> = {
-  'admin':             { title: 'Clinic Admin - Thaai Clinic Karaikal', description: 'Protected clinic appointment management dashboard.' },
-  'welcome':           { title: 'Thaai Clinic Karaikal | Dr. Sakthimaindan', description: 'Welcome to Thaai Clinic, Karaikal. General physician Dr. Sakthimaindan Karthigeyan.' },
-  'home':              { title: 'Thaai Clinic Karaikal | General Physician in Karaikal', description: 'Thaai Clinic, Karaikal – Compassionate care for you & your family. Walk-in & appointments available.' },
-  'services':          { title: 'Services – Thaai Clinic Karaikal | Child Health, Diabetes & More', description: 'Child health, diabetes care, fever treatment, respiratory care, health checkups & more at Thaai Clinic Karaikal.' },
-  'appointments':      { title: 'My Appointments – Thaai Clinic Karaikal', description: 'View and manage your appointments at Thaai Clinic Karaikal with Dr. Sakthimaindan.' },
-  'book-appointment':  { title: 'Book Appointment – Thaai Clinic Karaikal | Dr. Sakthimaindan', description: 'Book an appointment with Dr. Sakthimaindan Karthigeyan at Thaai Clinic, Karaikal. Walk-in or schedule online.' },
-  'health-tips':       { title: 'Health Tips – Thaai Clinic Karaikal | Wellness & Nutrition', description: 'Expert health tips on wellness, nutrition, chronic care, and child health from Dr. Sakthimaindan, Karaikal.' },
-  'health-records':    { title: 'Health Records – Thaai Clinic Karaikal', description: 'View and manage your personal health records at Thaai Clinic Karaikal.' },
-  'clinic-info':       { title: 'Clinic Info – Thaai Clinic | 385 Bharathiyar Road, Karaikal', description: 'Thaai Clinic, 385 Bharathiyar Road, Kovil Pathu, Karaikal. Timings: 8AM–1PM & 5PM–11PM. Call +91 86104 48427.' },
-  'consult-now':       { title: 'Consult Now – Thaai Clinic Karaikal', description: 'Get quick consultation at Thaai Clinic Karaikal. Call or WhatsApp Dr. Sakthimaindan now.' },
-  'about-doctor':      { title: 'Dr. Sakthimaindan Karthigeyan – General Physician Karaikal | MBBS', description: 'About Dr. Sakthimaindan Karthigeyan, MBBS. General Physician at Thaai Clinic, Karaikal. Specialised in diabetes, child health & family medicine.' },
-  'profile':           { title: 'Profile – Thaai Clinic Karaikal', description: 'Manage your profile at Thaai Clinic Karaikal.' },
+  'admin':             { title: 'Clinic Admin - Thaai Clinic Karaikal', description: 'Protected clinic appointment management dashboard for Dr. Sakthimaindan Karthigeyan at Thaai Clinic, Karaikal.' },
+  'welcome':           { title: 'Thaai Clinic Karaikal | Dr. Sakthimaindan', description: 'Welcome to Thaai Clinic, Karaikal. General physician Dr. Sakthimaindan Karthigeyan offering comprehensive family healthcare.' },
+  'home':              { title: 'Thaai Clinic Karaikal | General Physician in Karaikal', description: 'Thaai Clinic Karaikal – General physician Dr. Sakthimaindan Karthigeyan offering fever treatment, diabetes care, child health & checkups.' },
+  'services':          { title: 'Services – Thaai Clinic Karaikal | Child Health, Diabetes & More', description: 'Medical services at Thaai Clinic Karaikal: general consultations, diabetes care, child vaccination, fever treatment & health checkups.' },
+  'appointments':      { title: 'My Appointments – Thaai Clinic Karaikal', description: 'View and manage your doctor appointments online at Thaai Clinic, Karaikal with Dr. Sakthimaindan Karthigeyan.' },
+  'book-appointment':  { title: 'Book Appointment – Thaai Clinic Karaikal | Dr. Sakthimaindan', description: 'Book an online or walk-in appointment with Dr. Sakthimaindan Karthigeyan at Thaai Clinic, Karaikal. Call +91 86104 48427.' },
+  'health-tips':       { title: 'Health Tips – Thaai Clinic Karaikal | Wellness & Nutrition', description: 'Read health & wellness advice from Dr. Sakthimaindan Karthigeyan on diabetes management, child care, and preventive health in Karaikal.' },
+  'health-records':    { title: 'Health Records – Thaai Clinic Karaikal', description: 'Securely access and view your personal medical health records at Thaai Clinic Karaikal with Dr. Sakthimaindan.' },
+  'clinic-info':       { title: 'Clinic Info – Thaai Clinic | 385 Bharathiyar Road, Karaikal', description: 'Thaai Clinic location, contact & timing info: 385 Bharathiyar Road, Kovil Pathu, Karaikal. Open 8AM–1PM & 5PM–11PM. Call +91 86104 48427.' },
+  'consult-now':       { title: 'Consult Now – Thaai Clinic Karaikal', description: 'Get immediate medical consultation at Thaai Clinic Karaikal. Call or WhatsApp Dr. Sakthimaindan Karthigeyan at +91 86104 48427.' },
+  'about-doctor':      { title: 'Dr. Sakthimaindan Karthigeyan – General Physician Karaikal | MBBS', description: 'About Dr. Sakthimaindan Karthigeyan (MBBS) – General Physician at Thaai Clinic Karaikal. Specialised in diabetes care, child health & family medicine.' },
+  'profile':           { title: 'Profile – Thaai Clinic Karaikal', description: 'Manage your patient profile, personal details, and consultation preferences at Thaai Clinic Karaikal.' },
 };
 
 /** Derive initial tab from browser URL path */
