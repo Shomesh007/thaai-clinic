@@ -24,7 +24,7 @@ import {
 } from './mockData';
 
 import { Phone, MessageCircle } from 'lucide-react';
-import { preloadRemainingImages } from './utils/preloadImages';
+import { preloadSplashImages, preloadRemainingImages } from './utils/preloadImages';
 
 // ── URL ↔ TabType mapping ─────────────────────────────────────────────────
 const PATH_TO_TAB: Record<string, TabType> = {
@@ -120,14 +120,16 @@ function updatePageMeta(tab: TabType) {
 }
 
 export default function App() {
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
   const [activeTab, setActiveTabState] = useState<TabType>(() => {
     const fromUrl = getTabFromPath();
-    // Show welcome screen for first-time session visitors arriving at root
-    const hasVisited = sessionStorage.getItem('thaai_visited');
+    // Show welcome screen for first-time visitors arriving at root
+    const hasVisited = localStorage.getItem('thaai_visited');
     if (!hasVisited && (fromUrl === 'home' || fromUrl === 'welcome')) {
       return 'welcome';
     }
-    return fromUrl === 'welcome' ? 'home' : fromUrl;
+    return fromUrl === 'welcome' ? 'welcome' : fromUrl;
   });
 
   /** Wrapped setter: updates state + URL + meta atomically */
@@ -136,11 +138,11 @@ export default function App() {
     pushPath(tab);
     updatePageMeta(tab);
     if (tab !== 'welcome') {
-      sessionStorage.setItem('thaai_visited', '1');
+      localStorage.setItem('thaai_visited', '1');
     }
   };
 
-  // Sync URL & meta on first render and defer non-critical image preloading
+  // Sync URL & meta on first render and handle staged image preloading
   useEffect(() => {
     updatePageMeta(activeTab);
     const path = TAB_TO_PATH[activeTab] ?? '/';
@@ -148,14 +150,16 @@ export default function App() {
       window.history.replaceState({ tab: activeTab }, '', path);
     }
 
-    // Let the welcome screen and its LCP image render first. The remaining
-    // app images are useful after navigation, but do not belong in the
-    // critical startup network window.
-    const preloadTimer = window.setTimeout(() => {
-      void preloadRemainingImages();
-    }, 1200);
-
-    return () => window.clearTimeout(preloadTimer);
+    const minDelay = new Promise((resolve) => setTimeout(resolve, 350));
+    Promise.all([preloadSplashImages(), minDelay])
+      .then(() => {
+        setIsInitialLoading(false);
+        void preloadRemainingImages();
+      })
+      .catch(() => {
+        setIsInitialLoading(false);
+        void preloadRemainingImages();
+      });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle browser Back / Forward button
@@ -248,6 +252,31 @@ export default function App() {
   };
 
   const unreadNotifCount = notifications.filter((n) => !n.read).length;
+
+  if (isInitialLoading) {
+    return (
+      <MobileFrame>
+        <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-b from-[#FFE6F0] via-[#FFF0F6] to-[#FFF8FA] p-6 text-center space-y-5 select-none">
+          <div className="relative flex items-center justify-center">
+            <div className="loader"></div>
+            <img
+              src="/favicon.png"
+              alt="Thaai Clinic Karaikal"
+              className="w-7 h-7 object-contain absolute rounded-full bg-white p-0.5 shadow-xs"
+            />
+          </div>
+          <div className="space-y-1">
+            <h1 className="text-sm font-extrabold text-[#D8005A] tracking-wider uppercase">
+              Thaai Clinic Karaikal
+            </h1>
+            <p className="text-xs text-gray-500 font-semibold">
+              Loading healthcare experience...
+            </p>
+          </div>
+        </div>
+      </MobileFrame>
+    );
+  }
 
   return (
     <MobileFrame>

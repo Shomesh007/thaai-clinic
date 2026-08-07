@@ -17,7 +17,17 @@ import respiratoryCareIcon from '../assets/respiratory_care.png';
 import tickMarkIcon from '../assets/tick_mark.png';
 import trustIcon from '../assets/trust.png';
 
-/** App images preloaded after the first screen has had time to render */
+/** Critical assets required for the initial Welcome / Splash screen */
+export const SPLASH_IMAGES = [
+  '/assets/welcome-background.webp',
+  '/assets/thai-clinic-logo.webp',
+  childHealthIcon,
+  diabetesCareIcon,
+  respiratoryCareIcon,
+  generalConsultationIcon,
+];
+
+/** App images preloaded after the first screen has rendered */
 export const REMAINING_IMAGES = [
   drSakthiImage,
   homeBg,
@@ -28,10 +38,6 @@ export const REMAINING_IMAGES = [
   healthRecordsIcon,
   healthTipsIcon,
   clinicInfoIcon,
-  childHealthIcon,
-  diabetesCareIcon,
-  respiratoryCareIcon,
-  generalConsultationIcon,
   personalisedAttentionIcon,
   careForAllAgesIcon,
   communityIcon,
@@ -64,6 +70,13 @@ function preloadImageGroup(images: string[]): Promise<void> {
   });
 }
 
+/** Preload splash screen essential images */
+export function preloadSplashImages(): Promise<void> {
+  return preloadImageGroup(SPLASH_IMAGES);
+}
+
+/** Preload remaining app images in background */
 export function preloadRemainingImages(): Promise<void> {
   return preloadImageGroup(REMAINING_IMAGES);
 }
+
