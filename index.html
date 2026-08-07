@@ -63,14 +63,20 @@
       "@type": "MedicalClinic",
       "@id": "https://thaaiclinic.com/#clinic",
       "name": "Thaai Clinic",
-      "alternateName": "தாய் மக்கள் மருத்துவகம்",
-      "description": "Thaai Clinic is a trusted general physician and family medicine clinic in Karaikal, Puducherry, led by Dr. Sakthimaindan Karthigeyan. Offering compassionate healthcare including fever treatment, diabetes management, child vaccination, health checkups, weight management, and respiratory care.",
+      "alternateName": ["Thaai Clinic Karaikal", "தாய் மக்கள் மருத்துவகம்", "Thai Clinic Karaikal"],
+      "description": "Thaai Clinic is a trusted general physician and family medicine clinic in Karaikal, Puducherry, founded and led by Dr. Sakthimaindan Karthigeyan (Sakthimaindan K.). Offering compassionate healthcare including fever treatment, diabetes management, child vaccination, health checkups, weight management, and respiratory care.",
       "url": "https://thaaiclinic.com",
       "telephone": "+91-86104-48427",
       "image": "https://thaaiclinic.com/assets/thai-clinic-logo.webp",
       "priceRange": "₹₹",
       "currenciesAccepted": "INR",
       "paymentAccepted": "Cash, UPI",
+      "founder": {
+        "@id": "https://thaaiclinic.com/#doctor"
+      },
+      "medicalDirector": {
+        "@id": "https://thaaiclinic.com/#doctor"
+      },
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "385, Bharathiyar Road, Kovil Pathu",
@@ -108,6 +114,10 @@
         { "@type": "MedicalProcedure", "name": "Respiratory Care", "description": "Diagnosis and treatment of asthma, breathing difficulties, and respiratory conditions" }
       ],
       "hasMap": "https://maps.google.com/?q=Thaai+Clinic+385+Bharathiyar+Road+Kovil+Pathu+Karaikal+609602",
+      "sameAs": [
+        "https://thaaiclinic.com",
+        "https://www.linkedin.com/in/sakthimaindan-k-karthigeyan-409b64261/"
+      ],
       "isAcceptingNewPatients": true
     }
     </script>
@@ -120,22 +130,31 @@
       "@id": "https://thaaiclinic.com/#doctor",
       "name": "Dr. Sakthimaindan Karthigeyan",
       "alternateName": [
+        "Dr. Sakthimaindan",
+        "Dr Sakthimaindan",
+        "Sakthimaindan K.",
+        "Sakthimaindan K",
         "Dr. Sakthi Maindan Karthigeyan",
         "Dr Sakthi Maindan",
-        "Doctor Sakthi Maindan"
+        "Doctor Sakthi Maindan",
+        "Sakthimaindan Karthigeyan"
       ],
       "givenName": "Sakthimaindan",
       "familyName": "Karthigeyan",
       "honorificPrefix": "Dr.",
-      "jobTitle": "General Physician",
-      "description": "Dr. Sakthimaindan Karthigeyan is a qualified general physician (MBBS, CCH, CCPE, ACDM UK) practicing at Thaai Clinic in Karaikal, Puducherry. Specializes in general medicine, diabetes management, child vaccination, and family healthcare.",
+      "jobTitle": "General Physician & Founder of Thaai Clinic",
+      "description": "Dr. Sakthimaindan Karthigeyan (Sakthimaindan K.) is a qualified General Physician (MBBS, CCH, CCPE, ACDM UK) practicing at Thaai Clinic in Karaikal, Puducherry. Alumnus of Indira Gandhi Medical College & Research Institute (IGMCRI). Specializes in general medicine, diabetes management, child vaccination, and family healthcare.",
       "medicalSpecialty": "GeneralPractice",
       "qualification": "MBBS, CCH, CCPE, ACDM (UK)",
       "alumniOf": {
         "@type": "CollegeOrUniversity",
-        "name": "Indira Gandhi Medical College & Research Institute"
+        "name": "Indira Gandhi Medical College & Research Institute",
+        "sameAs": "https://igmcri.edu.in"
       },
       "worksFor": {
+        "@id": "https://thaaiclinic.com/#clinic"
+      },
+      "founder": {
         "@id": "https://thaaiclinic.com/#clinic"
       },
       "address": {
@@ -148,7 +167,9 @@
       },
       "telephone": "+91-86104-48427",
       "sameAs": [
-        "https://www.linkedin.com/in/sakthimaindan-k-karthigeyan-409b64261/"
+        "https://www.linkedin.com/in/sakthimaindan-k-karthigeyan-409b64261/",
+        "https://thaaiclinic.com",
+        "https://thaaiclinic.com/about-doctor"
       ],
       "url": "https://thaaiclinic.com/about-doctor"
     }

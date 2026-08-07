@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 Sitemap: https://thaaiclinic.com/sitemap.xml
 
-# Allow AI search crawlers for maximum local visibility
+# Allow AI search crawlers for maximum local & AI Overview visibility
 User-agent: GPTBot
 Allow: /
 
@@ -18,12 +18,16 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-# Block AI training crawlers (keep content for search, not model training)
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
+# Block scraper bots
 User-agent: Bytespider
 Disallow: /
 
 User-agent: CCBot
 Disallow: /
+
