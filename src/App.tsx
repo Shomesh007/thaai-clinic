@@ -256,23 +256,8 @@ export default function App() {
   if (isInitialLoading) {
     return (
       <MobileFrame>
-        <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-b from-[#FFE6F0] via-[#FFF0F6] to-[#FFF8FA] p-6 text-center space-y-5 select-none">
-          <div className="relative flex items-center justify-center">
-            <div className="loader"></div>
-            <img
-              src="/favicon.png"
-              alt="Thaai Clinic Karaikal"
-              className="w-7 h-7 object-contain absolute rounded-full bg-white p-0.5 shadow-xs"
-            />
-          </div>
-          <div className="space-y-1">
-            <h1 className="text-sm font-extrabold text-[#D8005A] tracking-wider uppercase">
-              Thaai Clinic Karaikal
-            </h1>
-            <p className="text-xs text-gray-500 font-semibold">
-              Loading healthcare experience...
-            </p>
-          </div>
+        <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-b from-[#FFE6F0] via-[#FFF0F6] to-[#FFF8FA] p-6 text-center select-none">
+          <div className="loader"></div>
         </div>
       </MobileFrame>
     );
