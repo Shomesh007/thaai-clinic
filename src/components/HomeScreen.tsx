@@ -176,9 +176,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <div className="pt-2 border-t border-pink-100/80 flex items-center gap-2 relative z-10">
               <button
                 onClick={() => setActiveTab('book-appointment')}
-                className="flex-1 bg-[#E91E63] hover:bg-[#D8005A] text-white font-extrabold py-2.5 px-3 rounded-2xl text-xs shadow-md shadow-pink-200/80 transition-all active:scale-95 text-center cursor-pointer flex items-center justify-center gap-1.5"
+                className="flex-1 whitespace-nowrap bg-[#E91E63] hover:bg-[#D8005A] text-white font-extrabold py-2.5 px-2.5 rounded-2xl text-xs shadow-md shadow-pink-200/80 transition-all active:scale-95 text-center cursor-pointer flex items-center justify-center gap-1.5"
               >
-                <Calendar className="w-3.5 h-3.5" /> Book Appointment
+                <Calendar className="w-3.5 h-3.5 shrink-0" /> Book Appointment
               </button>
               <button
                 onClick={() => setActiveTab('about-doctor')}

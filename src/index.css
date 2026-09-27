@@ -39,11 +39,13 @@
      blush    #FBF1F4  page ground
      turmeric #E3A018  "now / current" highlight
      leaf     #2E7D5B  open / success
-   Type: Bricolage Grotesque (display headings below the hero) + Inter (body).
+   Type: Bricolage Grotesque (display headings) + Plus Jakarta Sans (body).
+   Both self-hosted via Fontsource so they always load.
    Motif: kolam — the dot-and-line doorstep drawing of Karaikal homes.
    ─────────────────────────────────────────────────────────────────────── */
 @theme {
-  --font-display: "Bricolage Grotesque Variable", "Inter", ui-sans-serif, sans-serif;
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Plus Jakarta Sans Variable", ui-sans-serif, sans-serif;
   --color-rose: #D81B60;
   --color-plum: #3B0A24;
   --color-blush: #FBF1F4;
@@ -99,4 +101,9 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+
+/* Plus Jakarta Sans sets tight word spaces; open them slightly for body reading. */
+body {
+  word-spacing: 0.05em;
 }
