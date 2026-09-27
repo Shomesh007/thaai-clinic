@@ -1,28 +1,10 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import {
-  PhoneCall,
-  Thermometer,
-  BatteryLow,
-  Soup,
-  Droplet,
-  Syringe,
-  Scale,
-  ClipboardCheck,
-  CalendarCheck,
-  Stethoscope,
-  RefreshCcw,
-  Sparkles,
-  ChevronDown,
-} from 'lucide-react';
 import { HeaderNav } from './HeaderNav';
-import { EASE_OUT, Reveal, SectionTitle, fadeUp, stagger } from './ui/Motion';
+import { EASE_OUT, SectionTitle } from './ui/Motion';
+import { Kolam, KolamMark } from './ui/Kolam';
 import { OpenStatusPill } from './ui/OpenStatus';
 
-import careForAllAgesIcon from '../assets/care_for_all_ages.png';
-import personalisedAttentionIcon from '../assets/personalised_attention.png';
-import trustIcon from '../assets/trust.png';
-import communityIcon from '../assets/community.png';
 import mainServicesImg from '../assets/main_services.png';
 import drSakthiImage from '../assets/dr_sakthi_image.jpeg';
 
@@ -33,27 +15,35 @@ interface ServicesScreenProps {
 }
 
 const TREATMENTS = [
-  { name: 'Fever, Cold & Cough', icon: Thermometer, tint: 'text-rose-600 bg-rose-50', desc: 'Seasonal fevers, viral infections, sore throat and persistent cough — diagnosed and treated the same day.' },
-  { name: 'General Weakness', icon: BatteryLow, tint: 'text-amber-600 bg-amber-50', desc: 'Fatigue, dizziness and low energy evaluated for anaemia, thyroid, vitamin deficiency and more.' },
-  { name: 'Stomach Issues', icon: Soup, tint: 'text-orange-600 bg-orange-50', desc: 'Acidity, gastritis, loose stools, vomiting and indigestion with diet guidance.' },
-  { name: 'Diabetes Management', icon: Droplet, tint: 'text-blue-600 bg-blue-50', desc: 'Fellowship-trained sugar control: HbA1c plans, medication review and complication screening.' },
-  { name: 'Child Vaccination', icon: Syringe, tint: 'text-pink-600 bg-pink-50', desc: 'Complete immunisation schedule and growth checks for infants and children.' },
-  { name: 'Weight Management', icon: Scale, tint: 'text-emerald-600 bg-emerald-50', desc: 'Personalised nutrition and lifestyle plans for healthy, sustainable weight.' },
-  { name: 'Health Checkups', icon: ClipboardCheck, tint: 'text-indigo-600 bg-indigo-50', desc: 'Preventive screening for BP, sugar, cholesterol and routine family checkups.' },
+  { name: 'Fever, Cold & Cough', short: 'Seen and treated the same day', desc: 'Seasonal fevers, viral infections, sore throat and persistent cough, diagnosed and treated the same day.' },
+  { name: 'General Weakness', short: 'Tiredness, dizziness, low energy', desc: 'Fatigue, dizziness and low energy evaluated for anaemia, thyroid, vitamin deficiency and more.' },
+  { name: 'Stomach Issues', short: 'Acidity, gastritis, loose stools', desc: 'Acidity, gastritis, loose stools, vomiting and indigestion, with diet guidance.' },
+  { name: 'Diabetes Management', short: 'Sugar control that lasts', desc: 'Fellowship-trained sugar control: HbA1c plans, medication review and complication screening.', specialist: true },
+  { name: 'Child Vaccination', short: 'Full immunisation schedule', desc: 'Complete immunisation schedule and growth checks for infants and children.' },
+  { name: 'Weight Management', short: 'Plans built around you', desc: 'Personalised nutrition and lifestyle plans for healthy, sustainable weight.' },
+  { name: 'Health Checkups', short: 'BP, sugar, cholesterol', desc: 'Preventive screening for BP, sugar, cholesterol and routine family checkups.' },
 ];
 
-const WHY_US = [
-  { img: careForAllAgesIcon, label: 'Care for All Ages', alt: 'Care for all ages - infants to seniors at Thaai Clinic Karaikal' },
-  { img: personalisedAttentionIcon, label: 'Personalized Attention', alt: 'Personalized medical attention by Dr. Sakthimaindan' },
-  { img: trustIcon, label: 'Trusted Care', alt: 'Trusted healthcare at Thaai Clinic Karaikal' },
-  { img: communityIcon, label: 'Community Focused', alt: 'Community focused clinic in Karaikal' },
-];
+const PROMISES = ['Care for all ages', 'Personalised attention', 'Trusted care', 'Community focused'];
 
 const VISIT_STEPS = [
-  { icon: CalendarCheck, title: 'Book or walk in', desc: 'Reserve a slot online, call, or simply walk in during clinic hours.' },
-  { icon: Stethoscope, title: 'Unhurried consultation', desc: 'Dr. Sakthimaindan listens, examines and explains your plan clearly.' },
-  { icon: RefreshCcw, title: 'Follow-up on WhatsApp', desc: 'Share reports and get follow-up guidance without extra trips.' },
+  { title: 'Book or walk in', desc: 'Reserve a slot online, call, or walk in during clinic hours.' },
+  { title: 'An unhurried consultation', desc: 'The doctor listens, examines and explains your plan clearly.' },
+  { title: 'Follow up on WhatsApp', desc: 'Share reports and get guidance without an extra trip.' },
 ];
+
+/** Plus that turns into a cross — drawn with two bars, no icon font. */
+const PlusToggle: React.FC<{ open: boolean }> = ({ open }) => (
+  <motion.span
+    animate={{ rotate: open ? 45 : 0 }}
+    transition={{ type: 'spring', stiffness: 420, damping: 26 }}
+    className={`relative w-7 h-7 rounded-full shrink-0 transition-colors ${open ? 'bg-rose' : 'bg-plum/[0.06]'}`}
+    aria-hidden="true"
+  >
+    <span className={`absolute left-1/2 top-1/2 w-3 h-[2px] -translate-x-1/2 -translate-y-1/2 rounded-full ${open ? 'bg-white' : 'bg-plum'}`} />
+    <span className={`absolute left-1/2 top-1/2 w-[2px] h-3 -translate-x-1/2 -translate-y-1/2 rounded-full ${open ? 'bg-white' : 'bg-plum'}`} />
+  </motion.span>
+);
 
 export const ServicesScreen: React.FC<ServicesScreenProps> = ({
   onBack,
@@ -63,7 +53,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
   const [openTreatment, setOpenTreatment] = useState<string | null>(null);
 
   return (
-    <section aria-label="Thaai Clinic Services - General Physician in Karaikal" className="flex-1 overflow-y-auto pb-28 bg-[#FAF5F7]">
+    <section aria-label="Thaai Clinic Services - General Physician in Karaikal" className="flex-1 overflow-y-auto pb-28 bg-blush">
       <HeaderNav
         title="Our Services"
         subtitle="Quality care for you and your family"
@@ -97,71 +87,51 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           </div>
           <div className="relative flex flex-wrap items-center gap-1.5 mt-3.5">
             <span className="inline-flex items-center gap-1 text-[10px] font-extrabold bg-white text-pink-700 px-2.5 py-1 rounded-full">
-              <Sparkles className="w-3 h-3" /> Newly Established Clinic
+              Newly Established Clinic
             </span>
             <OpenStatusPill tone="dark" />
           </div>
         </motion.div>
 
-        {/* ── WHY FAMILIES CHOOSE US ────────────────────────────────── */}
-        <section aria-label="Why families choose Thaai Clinic">
-          <motion.div
-            variants={stagger(0.2, 0.07)}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-4 gap-2 text-center"
-          >
-            {WHY_US.map(({ img, label, alt }, i) => (
-              <motion.div key={label} variants={fadeUp} className="flex flex-col items-center">
-                <motion.div
-                  animate={{ y: [0, -4, 0] }}
-                  transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 }}
-                  className="w-14 h-14 rounded-2xl bg-white shadow-sm border border-pink-50 flex items-center justify-center mb-1.5"
-                >
-                  <img src={img} alt={alt} className="w-10 h-10 object-contain" />
-                </motion.div>
-                <span className="text-[10px] font-bold text-gray-800 leading-tight">{label}</span>
-              </motion.div>
+        {/* ── PROMISE BAND ──────────────────────────────────────────── */}
+        <section aria-label="Why families choose Thaai Clinic" className="relative overflow-hidden rounded-[26px] bg-plum text-white px-5 py-5">
+          <Kolam n={3} step={12} stroke="rgba(255,255,255,0.09)" className="absolute -right-20 -bottom-20 w-48 h-48" />
+          <p className="relative text-[13px] font-semibold text-turmeric mb-2">Why families choose us</p>
+          <p className="relative font-display text-[21px] font-semibold leading-[1.35] tracking-[-0.01em]">
+            {PROMISES.map((p, i) => (
+              <React.Fragment key={p}>
+                {p}
+                {i < PROMISES.length - 1 && (
+                  <KolamMark className="inline-block w-4 h-4 mx-1.5 -mt-1 text-rose align-middle" />
+                )}
+              </React.Fragment>
             ))}
-          </motion.div>
+          </p>
         </section>
 
         {/* ── WE TREAT ──────────────────────────────────────────────── */}
         <section aria-label="Conditions we treat">
-          <SectionTitle eyebrow="Tap a card to learn more" title="We Treat" icon={<Stethoscope className="w-4 h-4" />} />
-          <p className="text-xs text-gray-500 font-medium leading-relaxed mb-3 px-0.5">
-            Comprehensive care for common health concerns for individuals and families in Karaikal.
-          </p>
-          <motion.ul
-            variants={stagger(0, 0.05)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            className="space-y-2"
-          >
-            {TREATMENTS.map(({ name, icon: Icon, tint, desc }) => {
+          <SectionTitle title="We treat" note="Common health concerns for individuals and families in Karaikal." />
+          <ul className="rounded-[26px] bg-white px-4 shadow-[0_1px_0_rgba(59,10,36,0.05),0_18px_40px_-30px_rgba(59,10,36,0.45)]">
+            {TREATMENTS.map(({ name, short, desc, specialist }, i) => {
               const open = openTreatment === name;
               return (
-                <motion.li
-                  key={name}
-                  variants={fadeUp}
-                  layout
-                  className={`bg-white rounded-2xl border shadow-2xs overflow-hidden transition-colors ${
-                    open ? 'border-pink-200' : 'border-gray-100'
-                  }`}
-                >
+                <li key={name} className={i > 0 ? 'border-t border-plum/[0.07]' : ''}>
                   <button
                     onClick={() => setOpenTreatment(open ? null : name)}
                     aria-expanded={open}
-                    className="w-full flex items-center gap-3 p-3 text-left cursor-pointer"
+                    className="w-full flex items-center gap-3 py-3.5 text-left cursor-pointer"
                   >
-                    <span className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${tint}`}>
-                      <Icon className="w-5 h-5" />
+                    <span className="flex-1 min-w-0">
+                      <span className="flex items-center gap-2">
+                        <span className="font-display text-[17px] font-bold text-plum tracking-[-0.01em]">{name}</span>
+                        {specialist && (
+                          <span className="text-[11px] font-semibold text-plum bg-turmeric/25 px-2 py-0.5 rounded-full">Specialist</span>
+                        )}
+                      </span>
+                      <span className="block text-[13px] text-plum/55 mt-0.5">{short}</span>
                     </span>
-                    <span className="flex-1 text-[13px] font-extrabold text-gray-900">{name}</span>
-                    <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
-                      <ChevronDown className="w-4 h-4 text-gray-400" />
-                    </motion.span>
+                    <PlusToggle open={open} />
                   </button>
                   <AnimatePresence initial={false}>
                     {open && (
@@ -170,81 +140,65 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.28, ease: EASE_OUT }}
+                        className="overflow-hidden"
                       >
-                        <div className="px-3 pb-3 pl-[64px] space-y-2">
-                          <p className="text-[11px] text-gray-600 font-medium leading-relaxed">{desc}</p>
+                        <div className="pb-4 pr-10">
+                          <p className="text-[13.5px] text-plum/75 leading-relaxed">{desc}</p>
                           <button
                             onClick={onBookAppointment}
-                            className="text-[11px] font-extrabold text-pink-600 hover:underline cursor-pointer"
+                            className="mt-2 text-[13px] font-semibold text-rose underline underline-offset-4 decoration-rose/30 cursor-pointer"
                           >
-                            Book a visit for this →
+                            Book a visit for this
                           </button>
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </motion.li>
+                </li>
               );
             })}
-          </motion.ul>
+          </ul>
         </section>
 
         {/* ── HOW A VISIT WORKS ─────────────────────────────────────── */}
         <section aria-label="How a visit works">
-          <SectionTitle eyebrow="Simple & stress-free" title="How a visit works" icon={<CalendarCheck className="w-4 h-4" />} />
-          <div className="relative bg-white rounded-3xl p-4 border border-gray-100 shadow-2xs">
-            <div className="absolute left-[35px] top-9 bottom-9 border-l-2 border-dashed border-pink-200" aria-hidden="true" />
-            <ol className="space-y-4">
-              {VISIT_STEPS.map(({ icon: Icon, title, desc }, i) => (
-                <motion.li
-                  key={title}
-                  initial={{ opacity: 0, x: -14 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.7 }}
-                  transition={{ duration: 0.45, ease: EASE_OUT, delay: i * 0.12 }}
-                  className="relative flex gap-3"
-                >
-                  <span className="relative z-10 w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 text-white flex items-center justify-center shadow-md shadow-pink-200 shrink-0">
-                    <Icon className="w-[18px] h-[18px]" />
-                  </span>
-                  <div className="pt-0.5">
-                    <p className="text-[10px] font-extrabold text-pink-500">STEP {i + 1}</p>
-                    <h4 className="text-[13px] font-extrabold text-gray-900 leading-tight">{title}</h4>
-                    <p className="text-[11px] text-gray-500 font-medium leading-snug mt-0.5">{desc}</p>
-                  </div>
-                </motion.li>
-              ))}
-            </ol>
-          </div>
+          <SectionTitle title="How a visit works" />
+          <ol className="relative pl-12">
+            <span className="absolute left-[17px] top-4 bottom-6 border-l-2 border-dotted border-rose/40" aria-hidden="true" />
+            {VISIT_STEPS.map(({ title, desc }, i) => (
+              <li key={title} className="relative pb-5 last:pb-0">
+                <span className="absolute -left-12 top-0 w-9 h-9 rounded-full bg-blush ring-2 ring-rose/30 flex items-center justify-center font-display text-[17px] font-bold text-rose">
+                  {i + 1}
+                </span>
+                <p className="font-display text-[17px] font-bold text-plum leading-tight pt-1.5">{title}</p>
+                <p className="text-[13.5px] text-plum/60 leading-snug mt-1">{desc}</p>
+              </li>
+            ))}
+          </ol>
         </section>
 
-        {/* ── CONTACT CTA ───────────────────────────────────────────── */}
-        <Reveal className="relative overflow-hidden p-5 rounded-3xl bg-gray-900 text-white">
-          <div className="absolute inset-0 bg-dots opacity-20" aria-hidden="true" />
-          <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-pink-600/40 blur-2xl" aria-hidden="true" />
-          <div className="relative space-y-3">
-            <div>
-              <h4 className="text-base font-extrabold">Have questions?</h4>
-              <p className="text-xs text-gray-300 font-medium">We're here to help — call or book a visit.</p>
-            </div>
-            <div className="flex gap-2">
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={onContactClinic}
-                className="flex-1 bg-pink-600 hover:bg-pink-700 text-white text-xs font-extrabold py-3 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-pink-900/40 cursor-pointer"
-              >
-                <PhoneCall className="w-3.5 h-3.5" /> Contact Clinic
-              </motion.button>
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={onBookAppointment}
-                className="flex-1 bg-white text-gray-900 text-xs font-extrabold py-3 rounded-2xl cursor-pointer"
-              >
-                Book Visit
-              </motion.button>
-            </div>
+        {/* ── CONTACT ───────────────────────────────────────────────── */}
+        <section aria-label="Contact the clinic" className="rounded-[26px] bg-rose text-white p-5 relative overflow-hidden">
+          <Kolam n={2} step={14} stroke="rgba(255,255,255,0.2)" className="absolute -right-12 -top-12 w-36 h-36" />
+          <p className="relative font-display text-[22px] font-bold leading-tight tracking-[-0.02em] max-w-[85%]">Not sure what you need?</p>
+          <p className="relative text-[14px] text-white/85 mt-1">Call us and we’ll tell you whether to come in.</p>
+          <div className="relative flex gap-2 mt-4">
+            <motion.button
+              whileTap={{ scale: 0.96 }}
+              onClick={onContactClinic}
+              className="flex-1 bg-white text-rose font-semibold py-3 rounded-2xl text-[14px] cursor-pointer"
+            >
+              Call the clinic
+            </motion.button>
+            <motion.button
+              whileTap={{ scale: 0.96 }}
+              onClick={onBookAppointment}
+              className="flex-1 bg-white/15 text-white font-semibold py-3 rounded-2xl text-[14px] cursor-pointer"
+            >
+              Book a visit
+            </motion.button>
           </div>
-        </Reveal>
+        </section>
       </div>
     </section>
   );

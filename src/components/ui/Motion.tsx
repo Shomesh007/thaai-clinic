@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { animate, motion, useInView, type Variants } from 'motion/react';
+import { KolamMark } from './Kolam';
 
 /**
  * Shared motion primitives for the Thaai Clinic app.
@@ -87,28 +88,19 @@ export const CountUp: React.FC<{ value: number; suffix?: string; className?: str
   );
 };
 
-/** Small uppercase eyebrow + title used as the section header across screens. */
+/** Section heading: display-type title with the kolam mark and an optional plain-language note. */
 export const SectionTitle: React.FC<{
-  eyebrow?: string;
   title: string;
-  icon?: React.ReactNode;
+  note?: string;
   aside?: React.ReactNode;
-}> = ({ eyebrow, title, icon, aside }) => (
-  <div className="flex items-end justify-between gap-3 mb-3 px-0.5">
-    <div className="flex items-center gap-2.5">
-      {icon && (
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500 to-pink-700 text-white flex items-center justify-center shadow-md shadow-pink-200/70 shrink-0">
-          {icon}
-        </div>
-      )}
-      <div>
-        {eyebrow && (
-          <p className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-pink-500 leading-none mb-1">
-            {eyebrow}
-          </p>
-        )}
-        <h3 className="text-[15px] font-extrabold text-gray-900 tracking-tight leading-none">{title}</h3>
+}> = ({ title, note, aside }) => (
+  <div className="flex items-end justify-between gap-3 mb-4">
+    <div>
+      <div className="flex items-center gap-1.5">
+        <KolamMark className="w-[18px] h-[18px] text-rose shrink-0" />
+        <h3 className="font-display text-[21px] font-bold text-plum tracking-[-0.02em] leading-none">{title}</h3>
       </div>
+      {note && <p className="text-[13px] text-plum/60 leading-snug mt-1.5">{note}</p>}
     </div>
     {aside}
   </div>

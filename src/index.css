@@ -32,12 +32,23 @@
   }
 }
 
-/* ── Thaai design tokens ─────────────────────────────────────────────── */
+/* ── Thaai design tokens ─────────────────────────────────────────────────
+   Palette (each colour has one job):
+     rose     #D81B60  primary action, brand
+     plum     #3B0A24  headings / ink on light
+     blush    #FBF1F4  page ground
+     turmeric #E3A018  "now / current" highlight
+     leaf     #2E7D5B  open / success
+   Type: Bricolage Grotesque (display headings below the hero) + Inter (body).
+   Motif: kolam — the dot-and-line doorstep drawing of Karaikal homes.
+   ─────────────────────────────────────────────────────────────────────── */
 @theme {
-  --color-brand: #E91E63;
-  --color-brand-deep: #C2185B;
-  --color-brand-ink: #4A0D26;
-  --color-blush: #FFF2F5;
+  --font-display: "Bricolage Grotesque Variable", "Inter", ui-sans-serif, sans-serif;
+  --color-rose: #D81B60;
+  --color-plum: #3B0A24;
+  --color-blush: #FBF1F4;
+  --color-turmeric: #E3A018;
+  --color-leaf: #2E7D5B;
   --animate-float: float 6s ease-in-out infinite;
   --animate-shimmer: shimmer 2.8s linear infinite;
   --animate-pulse-ring: pulse-ring 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
