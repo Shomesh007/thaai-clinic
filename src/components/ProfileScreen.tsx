@@ -12,8 +12,10 @@ import {
   Edit2,
   Bell,
   ExternalLink,
+  Code2,
 } from 'lucide-react';
 import { HeaderNav } from './HeaderNav';
+import { BuiltByBadge } from './ui/BuiltByBadge';
 import { TabType } from '../types';
 
 interface ProfileScreenProps {
@@ -156,6 +158,22 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             </div>
             <ChevronRight className="w-4 h-4 text-gray-400" />
           </button>
+
+          <button
+            onClick={() => setActiveTab('credits')}
+            className="w-full p-3.5 flex items-center justify-between hover:bg-slate-50 transition-colors rounded-2xl"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gray-900 text-white flex items-center justify-center">
+                <Code2 className="w-5 h-5" />
+              </div>
+              <div className="text-left">
+                <span className="text-xs font-bold text-gray-800 block">About this website</span>
+                <span className="text-[10px] text-gray-400 font-semibold">Credits · built by builtbygsv.in</span>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-gray-400" />
+          </button>
         </div>
 
         {/* Clinic Address & Map Banner */}
@@ -175,6 +193,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             Get Directions in Google Maps <ExternalLink className="w-3 h-3" />
           </a>
         </div>
+
+        <BuiltByBadge onOpenCredits={() => setActiveTab('credits')} />
       </div>
     </div>
   );

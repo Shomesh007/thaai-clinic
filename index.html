@@ -46,15 +46,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Thaai Clinic" />
 
-    <!-- Preconnect for Performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 
-    <!-- Load the matching Inter font without blocking first paint -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"></noscript>
+    <!-- Brand fonts (Plus Jakarta Sans + Bricolage Grotesque) are self-hosted and bundled via Fontsource -->
 
     <!-- JSON-LD Structured Data: MedicalClinic -->
     <script type="application/ld+json">
@@ -237,6 +231,15 @@
       "publisher": {
         "@id": "https://thaaiclinic.com/#clinic"
       },
+      "creator": {
+        "@type": "Organization",
+        "@id": "https://www.builtbygsv.in/#organization",
+        "name": "GSV",
+        "alternateName": "builtbygsv.in",
+        "url": "https://www.builtbygsv.in",
+        "description": "Web and software development studio in Karaikal, Puducherry.",
+        "areaServed": { "@type": "City", "name": "Karaikal" }
+      },
       "inLanguage": "en"
     }
     </script>
@@ -254,18 +257,19 @@
         { "@type": "ListItem", "position": 5, "name": "Clinic Info",      "item": "https://thaaiclinic.com/clinic-info" },
         { "@type": "ListItem", "position": 6, "name": "Health Tips",      "item": "https://thaaiclinic.com/health-tips" },
         { "@type": "ListItem", "position": 7, "name": "Consult Now",      "item": "https://thaaiclinic.com/consult-now" },
-        { "@type": "ListItem", "position": 8, "name": "My Appointments",  "item": "https://thaaiclinic.com/appointments" }
+        { "@type": "ListItem", "position": 8, "name": "My Appointments",  "item": "https://thaaiclinic.com/appointments" },
+        { "@type": "ListItem", "position": 9, "name": "Website Credits",  "item": "https://thaaiclinic.com/credits" }
       ]
     }
     </script>
   </head>
-  <body class="bg-slate-100 font-['Inter',sans-serif] antialiased">
+  <body class="bg-slate-100 font-sans antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
     <!-- SEO HTML Content Fallback: Crawlable by all Search Engines & AI Bots -->
     <noscript>
-      <div style="max-width:700px;margin:0 auto;padding:24px;font-family:Inter,sans-serif;color:#1a1a1a;line-height:1.6;">
+      <div style="max-width:700px;margin:0 auto;padding:24px;font-family:'Plus Jakarta Sans',sans-serif;color:#1a1a1a;line-height:1.6;">
         
         <header>
           <h1>Thaai Clinic Karaikal — General Physician Dr. Sakthimaindan Karthigeyan</h1>
@@ -342,8 +346,13 @@
             <li><a href="/health-tips">Health Tips &amp; Wellness Articles</a></li>
             <li><a href="/consult-now">Consult Now via Call or WhatsApp</a></li>
             <li><a href="/appointments">My Appointments History</a></li>
+            <li><a href="/credits">Website Credits</a></li>
           </ul>
         </section>
+
+        <footer>
+          <p>Website designed and developed by <a href="https://www.builtbygsv.in">GSV (builtbygsv.in)</a>, a web and software developer in Karaikal.</p>
+        </footer>
 
         <footer>
           <p><em>உங்கள் ஆரோக்கியம், எங்கள் பொறுப்பு — Caring for you and your family with trust, compassion, and excellence.</em></p>

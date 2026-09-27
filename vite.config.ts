@@ -9,6 +9,7 @@ const SEO_ROUTE_PAGES = [
   'book-appointment',
   'clinic-info',
   'consult-now',
+  'credits',
   'health-tips',
   'services',
 ];

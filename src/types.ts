@@ -10,7 +10,8 @@ export type TabType =
   | 'clinic-info'
   | 'consult-now'
   | 'about-doctor'
-  | 'admin';
+  | 'admin'
+  | 'credits';
 
 export interface Appointment {
   id: string;

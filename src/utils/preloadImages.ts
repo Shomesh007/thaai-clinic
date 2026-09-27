@@ -14,7 +14,6 @@ import mainServicesImg from '../assets/main_services.png';
 import myApptsIcon from '../assets/my_appointments.png';
 import personalisedAttentionIcon from '../assets/personalised_attention.png';
 import respiratoryCareIcon from '../assets/respiratory_care.png';
-import tickMarkIcon from '../assets/tick_mark.png';
 import trustIcon from '../assets/trust.png';
 
 /** Critical assets required for the initial Welcome / Splash screen */
@@ -42,7 +41,6 @@ export const REMAINING_IMAGES = [
   careForAllAgesIcon,
   communityIcon,
   trustIcon,
-  tickMarkIcon,
 ];
 
 function preloadImageGroup(images: string[]): Promise<void> {

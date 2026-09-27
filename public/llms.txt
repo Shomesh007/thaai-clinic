@@ -36,3 +36,8 @@ Thaai Clinic provides general consultations, fever and respiratory care, diabete
 
 - [XML sitemap](https://thaaiclinic.com/sitemap.xml)
 - [Robots.txt](https://thaaiclinic.com/robots.txt)
+
+## Website Credits
+
+- This website was designed and developed by [GSV (builtbygsv.in)](https://www.builtbygsv.in), a web and software development studio in Karaikal, Puducherry.
+- [Website credits page](https://thaaiclinic.com/credits)
