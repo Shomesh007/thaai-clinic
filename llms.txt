@@ -20,3 +20,8 @@ Thaai Clinic is a mobile-first clinic website for Dr. Sakthimaindan Karthigeyan,
 - The app is route-based and updates metadata per section.
 - The main public entry point is the home page.
 - Dr. Sakthimaindan Karthigeyan may also be searched for as “Dr. Sakthi Maindan” or “Dr Sakthi Maindan”.
+
+## Website Credits
+
+- This website was designed and developed by [GSV (builtbygsv.in)](https://www.builtbygsv.in), a web and software development studio in Karaikal, Puducherry.
+- [Website credits page](https://thaaiclinic.com/credits)

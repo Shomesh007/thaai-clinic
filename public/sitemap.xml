@@ -114,4 +114,12 @@
     <priority>0.60</priority>
   </url>
 
+  <!-- 11. Website Credits Page -->
+  <url>
+    <loc>https://thaaiclinic.com/credits</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.40</priority>
+  </url>
+
 </urlset>

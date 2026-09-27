@@ -16,6 +16,9 @@ import healthRecordsIcon from '../assets/health_records.png';
 import healthTipsIcon from '../assets/health_tips.png';
 import clinicInfoIcon from '../assets/clinic_info.png';
 import drSakthiImage from '../assets/dr_sakthi_image.jpeg';
+import { BuiltByBadge } from './ui/BuiltByBadge';
+import { motion } from 'motion/react';
+import { fadeUp, stagger } from './ui/Motion';
 
 interface HomeScreenProps {
   upcomingAppointment?: Appointment;
@@ -192,11 +195,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {/* BEGIN: Quick Access Section */}
         <div>
           <h2 className="text-xs sm:text-sm font-bold text-indigo-950 mb-2.5 px-1">Quick Access</h2>
-          <div className="grid grid-cols-3 gap-2.5">
+          <motion.div variants={stagger(0.15, 0.06)} initial="hidden" animate="show" className="grid grid-cols-3 gap-2.5">
             {/* 1. Book Appointment */}
-            <button
+            <motion.button
+              variants={fadeUp}
+              whileTap={{ scale: 0.94 }}
               onClick={() => setActiveTab('book-appointment')}
-              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-pink-200 transition-all group active:scale-95"
+              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-pink-200 transition-[box-shadow,border-color] group"
             >
               <img
                 src={bookApptIcon}
@@ -206,12 +211,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-pink-600 leading-snug">
                 Book<br />Appointment
               </span>
-            </button>
+            </motion.button>
 
             {/* 2. My Appointments */}
-            <button
+            <motion.button
+              variants={fadeUp}
+              whileTap={{ scale: 0.94 }}
               onClick={() => setActiveTab('appointments')}
-              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-blue-200 transition-all group active:scale-95"
+              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-blue-200 transition-[box-shadow,border-color] group"
             >
               <img
                 src={myApptsIcon}
@@ -221,12 +228,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-blue-600 leading-snug">
                 My<br />Appointments
               </span>
-            </button>
+            </motion.button>
 
             {/* 3. Consult Now */}
-            <button
+            <motion.button
+              variants={fadeUp}
+              whileTap={{ scale: 0.94 }}
               onClick={() => setActiveTab('consult-now')}
-              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-emerald-200 transition-all group active:scale-95"
+              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-emerald-200 transition-[box-shadow,border-color] group"
             >
               <img
                 src={consultNowIcon}
@@ -236,12 +245,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-emerald-600 leading-snug">
                 Consult<br />Now
               </span>
-            </button>
+            </motion.button>
 
             {/* 4. Health Records */}
-            <button
+            <motion.button
+              variants={fadeUp}
+              whileTap={{ scale: 0.94 }}
               onClick={() => setActiveTab('health-records')}
-              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-indigo-200 transition-all group active:scale-95"
+              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-indigo-200 transition-[box-shadow,border-color] group"
             >
               <img
                 src={healthRecordsIcon}
@@ -251,12 +262,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-indigo-600 leading-snug">
                 Health<br />Records
               </span>
-            </button>
+            </motion.button>
 
             {/* 5. Health Tips */}
-            <button
+            <motion.button
+              variants={fadeUp}
+              whileTap={{ scale: 0.94 }}
               onClick={() => setActiveTab('health-tips')}
-              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-amber-200 transition-all group active:scale-95"
+              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-amber-200 transition-[box-shadow,border-color] group"
             >
               <img
                 src={healthTipsIcon}
@@ -266,12 +279,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-amber-600 leading-snug">
                 Health<br />Tips
               </span>
-            </button>
+            </motion.button>
 
             {/* 6. Clinic Info */}
-            <button
+            <motion.button
+              variants={fadeUp}
+              whileTap={{ scale: 0.94 }}
               onClick={() => setActiveTab('clinic-info')}
-              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-purple-200 transition-all group active:scale-95"
+              className="bg-white border border-gray-100/80 rounded-2xl p-3 flex flex-col items-center text-center shadow-2xs hover:shadow-md hover:border-purple-200 transition-[box-shadow,border-color] group"
             >
               <img
                 src={clinicInfoIcon}
@@ -281,8 +296,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span className="text-[11px] font-bold text-gray-800 group-hover:text-purple-600 leading-snug">
                 Clinic<br />Info
               </span>
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </div>
 
         {/* BEGIN: Need Help WhatsApp Card */}
@@ -330,6 +345,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
         </div>
         {/* END: Clinic Timings Banner */}
+
+        <BuiltByBadge onOpenCredits={() => setActiveTab('credits')} />
       </div>
     </section>
   );

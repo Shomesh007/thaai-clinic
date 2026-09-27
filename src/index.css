@@ -31,3 +31,61 @@
     transform: rotate(1turn);
   }
 }
+
+/* ── Thaai design tokens ─────────────────────────────────────────────── */
+@theme {
+  --color-brand: #E91E63;
+  --color-brand-deep: #C2185B;
+  --color-brand-ink: #4A0D26;
+  --color-blush: #FFF2F5;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+  --animate-pulse-ring: pulse-ring 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  --animate-credits-roll: credits-roll 28s linear infinite;
+}
+
+@keyframes credits-roll {
+  to { transform: translateY(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@layer utilities {
+  /* Soft dotted texture used on hero backdrops */
+  .bg-dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  .bg-dots-pink {
+    background-image: radial-gradient(rgba(233, 30, 99, 0.12) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  .text-shimmer {
+    background: linear-gradient(90deg, #C2185B 0%, #FF4F8B 25%, #C2185B 50%, #FF4F8B 75%, #C2185B 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: var(--animate-shimmer);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

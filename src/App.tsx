@@ -13,6 +13,8 @@ import { ClinicInfoScreen } from './components/ClinicInfoScreen';
 import { ConsultNowScreen } from './components/ConsultNowScreen';
 import { AboutDoctorScreen } from './components/AboutDoctorScreen';
 import { AdminScreen } from './components/AdminScreen';
+import { CreditsScreen } from './components/CreditsScreen';
+import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { NotificationsDrawer } from './components/NotificationsDrawer';
 
 import { TabType, Appointment, HealthRecord, HealthTip, NotificationItem } from './types';
@@ -41,6 +43,7 @@ const PATH_TO_TAB: Record<string, TabType> = {
   '/profile':          'profile',
   '/welcome':          'welcome',
   '/admin':            'admin',
+  '/credits':          'credits',
 };
 
 const TAB_TO_PATH: Record<TabType, string> = {
@@ -56,6 +59,7 @@ const TAB_TO_PATH: Record<TabType, string> = {
   'about-doctor':      '/about-doctor',
   'profile':           '/profile',
   'admin':             '/admin',
+  'credits':           '/credits',
 };
 
 const TAB_META: Record<TabType, { title: string; description: string }> = {
@@ -71,6 +75,7 @@ const TAB_META: Record<TabType, { title: string; description: string }> = {
   'consult-now':       { title: 'Consult Now – Thaai Clinic Karaikal', description: 'Get immediate medical consultation at Thaai Clinic Karaikal. Call or WhatsApp Dr. Sakthimaindan Karthigeyan at +91 86104 48427.' },
   'about-doctor':      { title: 'Dr. Sakthimaindan Karthigeyan – General Physician Karaikal | MBBS', description: 'About Dr. Sakthimaindan Karthigeyan (MBBS) – General Physician at Thaai Clinic Karaikal. Specialised in diabetes care, child health & family medicine.' },
   'profile':           { title: 'Profile – Thaai Clinic Karaikal', description: 'Manage your patient profile, personal details, and consultation preferences at Thaai Clinic Karaikal.' },
+  'credits':           { title: 'Website Credits – Built by GSV, Web Developer in Karaikal', description: 'Thaai Clinic website designed and developed by GSV (builtbygsv.in), a web and software development studio in Karaikal, Puducherry.' },
 };
 
 /** Derive initial tab from browser URL path */
@@ -264,6 +269,7 @@ export default function App() {
   }
 
   return (
+    <MotionConfig reducedMotion="user">
     <MobileFrame>
       {/* Semantic Main Content Area */}
       <main
@@ -271,6 +277,14 @@ export default function App() {
         aria-label="Thaai Clinic Karaikal - General Physician Dr. Sakthimaindan"
         className="flex-1 flex flex-col min-h-0 overflow-hidden"
       >
+        <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={activeTab}
+          className="flex-1 flex flex-col min-h-0"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0, transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] } }}
+          exit={{ opacity: 0, y: -6, transition: { duration: 0.14, ease: 'easeIn' } }}
+        >
         {activeTab === 'welcome' && (
           <WelcomeScreen
             onGetStarted={() => setActiveTab('home')}
@@ -364,6 +378,10 @@ export default function App() {
         )}
 
         {activeTab === 'admin' && <AdminScreen />}
+
+        {activeTab === 'credits' && <CreditsScreen setActiveTab={setActiveTab} />}
+        </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Global Bottom Navigation (Hidden on Welcome Screen) */}
@@ -381,9 +399,25 @@ export default function App() {
       )}
 
       {/* Call Dialog Modal */}
+      <AnimatePresence>
       {showCallModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-[340px] w-full text-center space-y-4 shadow-2xl animate-in zoom-in-95 duration-200">
+        <motion.div
+          key="showCallModal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setShowCallModal(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0, transition: { type: 'spring', stiffness: 420, damping: 30 } }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            className="bg-white rounded-3xl p-6 max-w-[340px] w-full text-center space-y-4 shadow-2xl"
+          >
             <div className="w-14 h-14 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mx-auto">
               <Phone className="w-7 h-7" />
             </div>
@@ -408,14 +442,31 @@ export default function App() {
                 Call Now
               </a>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* WhatsApp Dialog Modal */}
+      <AnimatePresence>
       {showWhatsAppModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-[340px] w-full text-center space-y-4 shadow-2xl animate-in zoom-in-95 duration-200">
+        <motion.div
+          key="showWhatsAppModal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setShowWhatsAppModal(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0, transition: { type: 'spring', stiffness: 420, damping: 30 } }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            className="bg-white rounded-3xl p-6 max-w-[340px] w-full text-center space-y-4 shadow-2xl"
+          >
             <div className="w-14 h-14 bg-[#25D366]/20 text-[#25D366] rounded-full flex items-center justify-center mx-auto">
               <MessageCircle className="w-8 h-8 fill-[#25D366] stroke-none" />
             </div>
@@ -442,9 +493,11 @@ export default function App() {
                 Open WhatsApp
               </a>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </MobileFrame>
+    </MotionConfig>
   );
 }
